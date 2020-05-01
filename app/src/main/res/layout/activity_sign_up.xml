@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Login"
+            android:text="Sign up"
             android:textAlignment="textStart"
             android:textDirection="firstStrong"
             android:textSize="24sp"
@@ -32,41 +32,37 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
         android:layout_marginVertical="60dp">
-        <RelativeLayout
-            android:id="@+id/div_face_twitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true">
-            <ImageButton
-                android:id="@+id/facebook_btn"
-                android:layout_width="140dp"
-                android:layout_height="50dp"
-                android:src="@drawable/facebook"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_icon"/>
-            <ImageButton
-                android:id="@+id/twitter_btn"
-                android:layout_width="140dp"
-                android:layout_height="50dp"
-                android:src="@drawable/google"
-                android:layout_margin="10dp"
-                android:layout_toEndOf="@id/facebook_btn"
-                android:background="@drawable/btn_icon"/>
-        </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/sub_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="40dp"
-            android:layout_below="@id/div_face_twitter"
             android:layout_marginVertical="60dp">
+
+            <RelativeLayout
+                android:id="@+id/div_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lbl_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="14sp"/>
+                <EditText
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_name"/>
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/lbl1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
+                android:layout_below="@id/div_info"
                 android:textSize="14sp"/>
             <EditText
                 android:id="@+id/email_input"
@@ -98,40 +94,15 @@
                 android:textSize="20sp"
                 android:padding="5dp"/>
 
-            <TextView
-                android:id="@+id/forget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Foreger Password?"
-                android:textColor="@color/colorMain"
-                android:textSize="12sp"
-                android:layout_marginVertical="19dp"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/password_input"/>
-            <Switch
-                android:id="@+id/switcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/password_input"
-                android:layout_marginTop="15dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Remember me"
-                android:textSize="12sp"
-                android:textColor="@color/colorMain"
-                android:layout_toEndOf="@id/switcher"
-                android:layout_below="@id/password_input"
-                android:layout_marginVertical="19dp"/>
 
             <Button
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="login"
+                android:text="Sign up"
                 android:textColor="@color/colorMain"
                 android:background="@drawable/btn_icon"
-                android:layout_below="@id/switcher"
+                android:layout_below="@id/password_input"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="10dp"/>
             <LinearLayout
@@ -143,12 +114,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Don't have an account?"/>
+                    android:text="Do you already have an account?"/>
                 <TextView
                     android:id="@+id/sign_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sign up"
+                    android:text="Log in"
                     android:textColor="@color/colorMain"
                     android:textStyle="bold"
                     android:layout_marginStart="5dp"/>
