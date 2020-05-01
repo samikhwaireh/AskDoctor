@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.askdoctors.R;
@@ -25,6 +28,17 @@ public class LoginActivity extends AppCompatActivity {
 
         EditText Email = findViewById(R.id.email_input);
         EditText Password = findViewById(R.id.password_input);
+        TextView signUp = findViewById(R.id.sign_up);
+
+        Button login = findViewById(R.id.login_btn);
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSignUpActivity();
+            }
+        });
+
     }
 
 
@@ -43,5 +57,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void openSignUpActivity(){
+        Intent intent;
+        intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 }
