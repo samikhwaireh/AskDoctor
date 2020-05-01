@@ -120,7 +120,7 @@
                     android:textSize="20sp"
                     android:padding="5dp"
                     android:layout_centerVertical="true"
-                    android:text="birthday"/>
+                    android:hint="Birthday"/>
                 <Button
                     android:id="@+id/pick_btn"
                     android:layout_width="130dp"
@@ -173,7 +173,7 @@
 
 
             <Button
-                android:id="@+id/login_btn"
+                android:id="@+id/sign_up_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sign up"
@@ -185,7 +185,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/login_btn"
+                android:layout_below="@id/sign_up_btn"
                 android:layout_centerHorizontal="true"
                 >
                 <TextView
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:text="Do you already have an account?"/>
                 <TextView
-                    android:id="@+id/sign_up"
+                    android:id="@+id/log_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Log in"
