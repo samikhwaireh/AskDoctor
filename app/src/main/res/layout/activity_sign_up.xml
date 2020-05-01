@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="40dp"
-            android:layout_marginVertical="60dp">
+            android:layout_marginVertical="30dp">
 
             <RelativeLayout
                 android:id="@+id/div_info"
@@ -48,13 +48,60 @@
                     android:id="@+id/lbl_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name"
+                    android:text="First Name"
                     android:textSize="14sp"/>
                 <EditText
+                    android:id="@+id/first_name"
                     android:layout_width="160dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/input_text_box"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:padding="5dp"
                     android:layout_below="@+id/lbl_name"/>
+                <TextView
+                    android:id="@+id/lbl_last_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Name"
+                    android:layout_marginStart="11dp"
+                    android:layout_toEndOf="@id/first_name"
+                    android:textSize="14sp"/>
+                <EditText
+                    android:id="@+id/last_name"
+                    android:layout_width="160dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/input_text_box"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:padding="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/lbl_last_name"/>
             </RelativeLayout>
+
+            <RadioGroup
+                android:id="@+id/gender_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/div_info"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"/>
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"/>
+                <RadioButton
+                    android:id="@+id/other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other"/>
+            </RadioGroup>
 
 
             <TextView
@@ -62,7 +109,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
-                android:layout_below="@id/div_info"
+                android:layout_below="@id/gender_radio"
+                android:layout_marginTop="20dp"
                 android:textSize="14sp"/>
             <EditText
                 android:id="@+id/email_input"
@@ -81,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:text="password"
                 android:layout_below="@id/email_input"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:textSize="14sp"/>
             <EditText
                 android:id="@+id/password_input"
