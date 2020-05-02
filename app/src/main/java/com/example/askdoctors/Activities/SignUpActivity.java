@@ -29,10 +29,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +125,8 @@ public class SignUpActivity extends AppCompatActivity {
         dpd.show();
     }
 
-    private void EmailAndPasswordAuthentication(String Email, String Password){
+    private void EmailAndPasswordAuthentication(final String Email, final String Password, final String firstName, final String lastName,
+                                                final String gender, final String birthday){
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -124,10 +134,39 @@ public class SignUpActivity extends AppCompatActivity {
 
                 try {
                     if (task.isSuccessful()){
-                        Toast.makeText(SignUpActivity.this ,
-                                "Your account has been created successfully",
-                                Toast.LENGTH_LONG).show();
-                        finish();
+
+                        firebaseUser = firebaseAuth.getCurrentUser();
+                        firebaseDatabase = FirebaseDatabase.getInstance();
+                        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid());
+
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("id", firebaseUser.getUid());
+                        hashMap.put("firstName", firstName);
+                        hashMap.put("lastName", lastName);
+                        hashMap.put("gender", gender);
+                        hashMap.put("birthday", birthday);
+                        hashMap.put("email", Email);
+                        hashMap.put("password", Password);
+                        hashMap.put("accType", "customer");
+
+                        databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(SignUpActivity.this ,
+                                        "Your account has been created successfully",
+                                        Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(SignUpActivity.this,
+                                        "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
+                                        , Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                     }
                 }
                 catch (Exception e){
@@ -187,7 +226,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (Gender.equals("")){
             Toast.makeText(this, "please select your gender", Toast.LENGTH_LONG).show();
         } else {
-            EmailAndPasswordAuthentication(Email, Password);
+            EmailAndPasswordAuthentication(Email, Password, first_name, last_name, Gender, birthday_date);
         }
     }
 }
