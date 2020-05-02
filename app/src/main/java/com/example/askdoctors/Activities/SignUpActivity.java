@@ -5,9 +5,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +38,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -139,7 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
                         firebaseDatabase = FirebaseDatabase.getInstance();
                         databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid());
 
-                        HashMap<String, Object> hashMap = new HashMap<>();
+                        final HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("id", firebaseUser.getUid());
                         hashMap.put("firstName", firstName);
                         hashMap.put("lastName", lastName);
@@ -147,30 +152,72 @@ public class SignUpActivity extends AppCompatActivity {
                         hashMap.put("birthday", birthday);
                         hashMap.put("email", Email);
                         hashMap.put("password", Password);
-                        hashMap.put("accType", "customer");
 
-                        databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(SignUpActivity.this);
+                        alert.setTitle("Doctor or Patient");
+                        alert.setMessage("Are you a DOCTOR ?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(SignUpActivity.this ,
-                                        "Your account has been created successfully",
-                                        Toast.LENGTH_LONG).show();
-                                finish();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(SignUpActivity.this,
-                                        "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
-                                        , Toast.LENGTH_LONG).show();
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference doctorReference = firebaseDatabase.getReference("Doctors")
+                                        .child(firebaseUser.getUid());
+                                hashMap.put("accType", "doctor");
+                                hashMap.put("Diploma", null);
+                                hashMap.put("University", null);
+                                hashMap.put("Graduate", null);
+                                hashMap.put("Status", "Waiting");
+                                doctorReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toasty.info(SignUpActivity.this ,
+                                                "One step remained...",
+                                                Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toasty.error(SignUpActivity.this,
+                                                "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
+                                                , Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
                         });
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                hashMap.put("accType", "customer");
+
+                                databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toasty.success(SignUpActivity.this ,
+                                                "Your account has been created successfully",
+                                                Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toasty.error(SignUpActivity.this,
+                                                "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
+                                                , Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
+                        alert.show();
+
+
 
                     }
                 }
                 catch (Exception e){
-                    Toast.makeText(SignUpActivity.this ,
+                    Toasty.error(SignUpActivity.this ,
                             "ERROR: "+ e.getLocalizedMessage(),
                             Toast.LENGTH_LONG).show();
                 }
@@ -178,7 +225,7 @@ public class SignUpActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SignUpActivity.this,
+                Toasty.error(SignUpActivity.this,
                         "ERROR: "+ e.getMessage().toString(), Toast.LENGTH_LONG).show();
             }
         });
