@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import es.dmoral.toasty.Toasty;
@@ -238,7 +240,11 @@ public class DoctorsProof extends AppCompatActivity {
                              @Override
                              public void onSuccess(Uri uri) {
                                  //firebase realtime'da güncellemek istenilen kullanıcının bilgileri giriliyor
-                                 Map<String, Object> userInfo = new HashMap<>();
+                                 //Map<String, Object> userInfo = new HashMap<>();
+                                 Intent intent = getIntent();
+                                 HashMap<String, String> userInfo;
+                                 userInfo = (HashMap<String, String>)intent.getSerializableExtra("map");
+                                 assert userInfo != null;
                                  userInfo.put("Diploma", uri.toString());
                                  userInfo.put("University", university);
                                  userInfo.put("Graduate", graduate);
@@ -246,7 +252,7 @@ public class DoctorsProof extends AppCompatActivity {
                                  DatabaseReference databaseReference = firebaseDatabase.getReference("Doctors")
                                          .child(firebaseUser.getUid());
                                  //bilgiler güncelleniyor
-                                 databaseReference.updateChildren(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                 databaseReference.setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                                      @Override
                                      public void onSuccess(Void aVoid) {
 
@@ -264,7 +270,7 @@ public class DoctorsProof extends AppCompatActivity {
                                      @Override
                                      public void onFailure(@NonNull Exception e) {
                                          //güncelleme işlemi başarısız olursa hata ayrıntıları gösteriliyor
-                                         Toasty.error(DoctorsProof.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                         Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
 
                                          //kaydetme button'u tekrar etkinleştiriliyor
                                          saveBtn.setEnabled(true);
@@ -275,7 +281,7 @@ public class DoctorsProof extends AppCompatActivity {
                              @Override
                              public void onFailure(@NonNull Exception e) {
                                  //indirme linki alma işlemi başarısız olursa hata ayrıntıları gösteriliyor
-                                 Toasty.error(DoctorsProof.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                                 Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()),Toast.LENGTH_LONG).show();
 
                                  //kaydetme button'u tekrar etkinleştiriliyor
                                  saveBtn.setEnabled(true);
@@ -286,7 +292,7 @@ public class DoctorsProof extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     //resmi kaydetme işlemi başarısız olursa hata ayrıntıları gösteriliyor
-                    Toasty.error(DoctorsProof.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
 
                     //kaydetme button'u tekrar etkinleştiriliyor
                     saveBtn.setEnabled(true);
@@ -310,6 +316,7 @@ public class DoctorsProof extends AppCompatActivity {
 
         //tarih seçildiğinde ne olacak
         DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker datePicker, int myear, int mmonth, int dayOfMonth) {
                 //seçilen tarihi mezun kutusunda gösteriliyor
@@ -326,6 +333,7 @@ public class DoctorsProof extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
     }

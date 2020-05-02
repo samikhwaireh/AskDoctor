@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference customerReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText Email = findViewById(R.id.email_input);
         final EditText Password = findViewById(R.id.password_input);
 
+        //on click on sign up button
         signUP_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         firebaseUser = firebaseAuth.getCurrentUser();
                         firebaseDatabase = FirebaseDatabase.getInstance();
-                        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid());
+                        customerReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid());
 
                         final HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("id", firebaseUser.getUid());
@@ -161,20 +162,29 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 DatabaseReference doctorReference = firebaseDatabase.getReference("Doctors")
                                         .child(firebaseUser.getUid());
+
                                 hashMap.put("accType", "doctor");
-                                hashMap.put("Diploma", null);
-                                hashMap.put("University", null);
-                                hashMap.put("Graduate", null);
+                                //hashMap.put("Diploma", null);
+                                //hashMap.put("University", null);
+                                //hashMap.put("Graduate", null);
                                 hashMap.put("Status", "Waiting");
-                                doctorReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("map", hashMap);
+                                startActivity(intent);
+
+                                /*doctorReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toasty.info(SignUpActivity.this ,
                                                 "One step remained...",
                                                 Toast.LENGTH_LONG).show();
+
                                         Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -183,15 +193,16 @@ public class SignUpActivity extends AppCompatActivity {
                                                 "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
                                                 , Toast.LENGTH_LONG).show();
                                     }
-                                });
+                                });*/
                             }
                         });
                         alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 hashMap.put("accType", "customer");
 
-                                databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                customerReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toasty.success(SignUpActivity.this ,
@@ -210,9 +221,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                             }
                         });
+
                         alert.show();
-
-
 
                     }
                 }
