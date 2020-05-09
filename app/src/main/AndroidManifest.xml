@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SetProfileInfo_Activity"></activity>
+        <activity android:name=".Activities.AskQuestionActivity"></activity>
+        <activity android:name=".Activities.SetProfileInfo_Activity" />
         <activity android:name=".Activities.AdminActivity" />
         <activity android:name=".Activities.DoctorsProof" />
         <activity android:name=".Activities.HomeActivity" />

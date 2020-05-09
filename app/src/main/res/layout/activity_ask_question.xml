@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.AskQuestionActivity">
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              <de.hdodenhof.circleimageview.CircleImageView
+                  android:id="@+id/Ask_userImageView"
+                  android:layout_width="75dp"
+                  android:layout_height="75dp"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginTop="10dp"
+                  android:src="@drawable/ic_person_black_24dp" />
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignTop="@+id/Ask_userImageView"
+                  android:layout_alignBottom="@+id/Ask_userImageView"
+                  android:layout_marginStart="12dp"
+                  android:layout_marginTop="31dp"
+                  android:layout_marginBottom="25dp"
+                  android:layout_toEndOf="@id/Ask_userImageView"
+                  android:text="User"
+                  android:textSize="14sp"
+                  android:textStyle="bold"
+                  android:id="@+id/Ask_userNameTv"/>
+
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignTop="@id/Ask_userImageView"
+                  android:layout_alignBottom="@+id/Ask_userImageView"
+                  android:layout_alignParentRight="true"
+                  android:layout_marginTop="14dp"
+                  android:layout_marginRight="7dp"
+                  android:layout_marginBottom="12dp"
+                  android:background="@drawable/btn_icon"
+                  android:drawableLeft="@drawable/ic_add_black_24dp"
+                  android:paddingRight="15dp"
+                  android:paddingBottom="15dp"
+                  android:text="Ask"
+                  android:id="@+id/Ask_askBtn"
+                  android:onClick="Ask"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignBottom="@id/Ask_userImageView"
+                  android:layout_marginBottom="-27dp"
+                  android:text="Disease :"
+                  android:layout_marginLeft="10dp"
+                  android:id="@+id/type"/>
+
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignBottom="@+id/type"
+                  android:layout_marginLeft="10dp"
+                  android:layout_toRightOf="@id/type"
+                  android:background="@drawable/input_text_box"
+                  android:layout_marginRight="15dp"
+                  android:id="@+id/Ask_diseaseEt"
+                  android:inputType="text"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/type"
+                  android:layout_alignStart="@+id/type"
+                  android:layout_marginStart="0dp"
+                  android:layout_marginTop="39dp"
+                  android:layout_marginEnd="49dp"
+                  android:text="Question :"
+                  android:id="@+id/question"/>
+
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/question"
+                  android:layout_marginTop="6dp"
+                  android:background="@drawable/input_text_box"
+                  android:layout_marginRight="10dp"
+                  android:layout_marginLeft="10dp"
+                  android:id="@+id/Ask_questionEt"
+                  android:hint="Type a question..."
+                  android:inputType="textMultiLine"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/Ask_questionEt"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginLeft="10dp"
+                  android:text="Image if has :"
+                  android:id="@+id/im"/>
+              <ImageView
+                  android:layout_width="250dp"
+                  android:layout_height="250dp"
+                  android:layout_below="@id/im"
+                  android:layout_marginTop="10dp"
+                  android:layout_centerHorizontal="true"
+                  android:id="@+id/Ask_ImageView"
+                  android:src="@drawable/common_google_signin_btn_icon_dark_normal_background"/>
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/Ask_ImageView"
+                  android:layout_marginTop="10dp"
+                  android:background="@drawable/btn_icon"
+                  android:layout_centerHorizontal="true"
+                  android:text="Select Image"
+                  android:drawableLeft="@drawable/ic_image_black_24dp"
+                  android:drawablePadding="5dp"
+                  android:paddingRight="20dp"
+                  android:paddingBottom="15dp"
+                  android:onClick="openGalleryForImage"/>
+
+              <ProgressBar
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="14dp"
+                  android:layout_centerHorizontal="true"
+                  android:layout_centerVertical="true"
+                  android:id="@+id/Ask_prograssbar"/>
+          </RelativeLayout>
+
+       </LinearLayout>
+   </ScrollView>
+
+</RelativeLayout>

@@ -16,42 +16,41 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Admin_DoctorsRvAdapter extends RecyclerView.Adapter<Admin_DoctorsRvAdapter.doctorsHolder> {
+public class Admin_AdminsRvAdapter extends RecyclerView.Adapter<Admin_AdminsRvAdapter.adminsHolder> {
 
-    ArrayList<Doctors> doctors;
+    ArrayList<Admins> admins;
 
-    public Admin_DoctorsRvAdapter(ArrayList<Doctors> doctors) {
-        this.doctors = doctors;
+    public Admin_AdminsRvAdapter(ArrayList<Admins> admins) {
+        this.admins = admins;
     }
 
     @NonNull
     @Override
-    public doctorsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public adminsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.admin_doctors_adapter, parent, false);
-        return new doctorsHolder(view);
+        return new adminsHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull doctorsHolder holder, int position) {
-
-        Picasso.get().load(doctors.get(position).getProfileImage()).into(holder.userImageView);
-        holder.userNameTv.setText(doctors.get(position).getFirstName() + " " + doctors.get(position).getLastName());
-        if (doctors.get(position).getStatus().equals("Confirmed"))
-            holder.confirmBtn.setText("Unconfirm");
-
+    public void onBindViewHolder(@NonNull adminsHolder holder, int position) {
+        Picasso.get().load(admins.get(position).getProfileImage()).into(holder.userImageView);
+        holder.userNameTv.setText(admins.get(position).getFirstName() + " " + admins.get(position).getLastName());
+        holder.confirmBtn.setVisibility(View.GONE);
     }
 
     @Override
     public int getItemCount() {
-        return doctors.size();
+        return admins.size();
     }
 
-    public class doctorsHolder extends RecyclerView.ViewHolder{
+    public class adminsHolder extends RecyclerView.ViewHolder{
+
         TextView userNameTv;
         Button confirmBtn;
         CircleImageView userImageView;
-        public doctorsHolder(@NonNull View itemView) {
+
+        public adminsHolder(@NonNull View itemView) {
             super(itemView);
 
             userImageView = itemView.findViewById(R.id.admin_docRv_Imageview);

@@ -160,11 +160,10 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            User user = dataSnapshot.getValue(User.class);
                                             if (dataSnapshot.getValue()!=null){
-
                                                 Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(LoginActivity.this , HomeActivity.class));
+                                                Intent intent = new Intent(LoginActivity.this , HomeActivity.class);
+                                                startActivity(intent);
                                                 finish();
 
                                             }else {
@@ -189,10 +188,6 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
 
-
-               /* Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this , HomeActivity.class));
-                finish();*/
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

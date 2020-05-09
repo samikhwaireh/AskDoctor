@@ -30,7 +30,12 @@
             android:text="select Image"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:onClick="openGalleryForDiploma"/>
+            android:background="@drawable/btn_icon"
+            android:paddingRight="20dp"
+            android:paddingBottom="15dp"
+            android:onClick="openGalleryForDiploma"
+            android:drawableLeft="@drawable/ic_image_black_24dp"
+            android:drawablePadding="5dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:id="@+id/docProof_universityEt"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:background="@drawable/input_text_box"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,25 +64,39 @@
             android:textSize="18sp"
             android:textColor="#000"
             android:text="Graduate :"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
         <EditText
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:id="@+id/docProof_graduateEt"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:background="@drawable/input_text_box"
+            android:layout_marginTop="10dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Pick date"
-            android:onClick="pickGraduateDate"/>
+            android:onClick="pickGraduateDate"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_icon"
+            android:paddingBottom="15dp"
+            android:paddingRight="20dp"
+            android:drawableLeft="@drawable/ic_date_range_black_24dp"
+            android:drawablePadding="5dp"/>
     </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
         android:onClick="updloadDocProof"
-        android:id="@+id/docProof_saveBtn"/>
+        android:id="@+id/docProof_saveBtn"
+        android:background="@drawable/btn_icon"
+        android:paddingRight="20dp"
+        android:paddingBottom="15dp"
+        android:drawableLeft="@drawable/ic_save_black_24dp"
+        android:drawablePadding="5dp"/>
 
 </LinearLayout>

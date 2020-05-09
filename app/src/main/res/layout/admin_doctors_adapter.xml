@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:text="userName"
-        android:textSize="12sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:id="@+id/admin_docRv_userNameTv"/>
     <Button

@@ -286,7 +286,7 @@ public class DoctorsProof extends AppCompatActivity {
 
                 graduateEt.setText(dayOfMonth + "/" + (mmonth+1) + "/" + myear);
             }
-        }, day, month, year);
+        }, year, month, day);
 
 
         dpd.show();
