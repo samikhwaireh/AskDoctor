@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.askdoctors.R;
@@ -72,6 +73,7 @@ public class DoctorsProof extends AppCompatActivity {
     ImageView imageView;
     Button saveBtn;
     String university, graduate;
+    ProgressBar progressBar;
 
     private FirebaseStorage firebaseStorage;
     private FirebaseDatabase firebaseDatabase;
@@ -86,6 +88,8 @@ public class DoctorsProof extends AppCompatActivity {
         graduateEt = findViewById(R.id.docProof_graduateEt);
         imageView = findViewById(R.id.docProof_ImageView);
         saveBtn = findViewById(R.id.docProof_saveBtn);
+        progressBar = findViewById(R.id.docProof_Progressbar);
+        progressBar.setVisibility(View.GONE);
 
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -187,6 +191,7 @@ public class DoctorsProof extends AppCompatActivity {
 
         if (result == false){
 
+            progressBar.setVisibility(View.VISIBLE);
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             StorageReference storageReference = firebaseStorage.getReference();
 
@@ -223,7 +228,7 @@ public class DoctorsProof extends AppCompatActivity {
                                      @Override
                                      public void onSuccess(Void aVoid) {
 
-
+                                        progressBar.setVisibility(View.GONE);
                                         Intent intent = new Intent(DoctorsProof.this, SetProfileInfo_Activity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         intent.putExtra("accType", "Doctors");
@@ -236,6 +241,7 @@ public class DoctorsProof extends AppCompatActivity {
                                      @Override
                                      public void onFailure(@NonNull Exception e) {
 
+                                         progressBar.setVisibility(View.GONE);
                                          Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
 
                                          //kaydetme button'u tekrar etkinleştiriliyor
@@ -247,6 +253,7 @@ public class DoctorsProof extends AppCompatActivity {
                              @Override
                              public void onFailure(@NonNull Exception e) {
 
+                                 progressBar.setVisibility(View.GONE);
                                  Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()),Toast.LENGTH_LONG).show();
 
 
@@ -258,6 +265,7 @@ public class DoctorsProof extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
+                    progressBar.setVisibility(View.GONE);
                     Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
 
                     saveBtn.setEnabled(true);

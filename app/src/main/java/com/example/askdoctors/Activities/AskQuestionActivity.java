@@ -14,6 +14,7 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
@@ -58,6 +59,7 @@ public class AskQuestionActivity extends AppCompatActivity {
     private FirebaseStorage firebaseStorage;
 
     User user;
+    String userName, profileImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,10 @@ public class AskQuestionActivity extends AppCompatActivity {
                 user = dataSnapshot.getValue(User.class);
                 userNameTv.setText(user.getFirstName() + " " + user.getLastName());
                 Picasso.get().load(user.getProfileImage()).into(userImageView);
+
+                userName = user.getFirstName() + " " + user.getLastName();
+                profileImage = user.getProfileImage();
+
             }
 
             @Override
@@ -128,6 +134,8 @@ public class AskQuestionActivity extends AppCompatActivity {
                                 QuestionDetails.put("Question", question);
                                 QuestionDetails.put("Disease", disease);
                                 QuestionDetails.put("Image", uri.toString());
+                                QuestionDetails.put("UserName", userName);
+                                QuestionDetails.put("profileImage", profileImage);
 
                                 UUID uuid = UUID.randomUUID();
                                 DatabaseReference reference = firebaseDatabase.getReference("Questions")
@@ -187,7 +195,9 @@ public class AskQuestionActivity extends AppCompatActivity {
                 Map<String, Object> QuestionDetails = new HashMap<>();
                 QuestionDetails.put("Question", question);
                 QuestionDetails.put("Disease", disease);
-                QuestionDetails.put("Image", null);
+                QuestionDetails.put("Image", "noImage");
+                QuestionDetails.put("UserName", userName);
+                QuestionDetails.put("profileImage", profileImage);
 
                 reference.setValue(QuestionDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
