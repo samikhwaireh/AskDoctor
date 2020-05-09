@@ -205,9 +205,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 customerReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Toasty.success(SignUpActivity.this ,
-                                                "Your account has been created successfully",
-                                                Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(SignUpActivity.this, SetProfileInfo_Activity.class);
+                                        intent.putExtra("accType", "Users");
+                                        intent.putExtra("firstName", firstName);
+                                        intent.putExtra("lastName", lastName);
+                                        startActivity(intent);
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

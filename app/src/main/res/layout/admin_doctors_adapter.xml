@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_person_black_24dp"
+        android:id="@+id/admin_docRv_Imageview"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/admin_docRv_Imageview"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:text="userName"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:id="@+id/admin_docRv_userNameTv"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/admin_docRv_ConfirmBtn"
+        android:text="Confirm"
+        android:background="@drawable/btn_icon"
+        android:layout_centerHorizontal="true"
+        android:gravity="top"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorMain"
+        android:layout_alignBottom="@id/admin_docRv_Imageview"
+        android:layout_toEndOf="@id/admin_docRv_Imageview"/>
+
+</RelativeLayout>

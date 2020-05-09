@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.SetProfileInfo_Activity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileInfo_ImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_person_black_24dp"
+        android:onClick="selectImageFromGallery"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profileInfo_ImageView"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="37dp"
+        android:layout_toEndOf="@id/profileInfo_ImageView"
+        android:text="name"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:id="@+id/proInfo_userNameTv"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profileInfo_ImageView"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="28dp"
+        android:text="Finish"
+        android:onClick="saveImageInFirebase"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/progressBar"/>
+
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/doctors_nav"
+        android:title="Doctors"
+        android:icon="@drawable/ic_local_hospital_black_24dp"/>
+    <item android:icon="@drawable/ic_person_black_24dp"
+        android:title="Admins"
+        android:id="@+id/admins_nav"/>
+</menu>
