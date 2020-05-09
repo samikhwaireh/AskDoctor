@@ -29,7 +29,10 @@
         android:text="Confirm"
         android:background="@drawable/btn_icon"
         android:layout_centerHorizontal="true"
-        android:gravity="top"/>
+        android:drawableLeft="@drawable/ic_check_black_24dp"
+        android:drawablePadding="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="15dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"

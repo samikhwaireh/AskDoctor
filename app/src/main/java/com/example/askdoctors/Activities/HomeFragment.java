@@ -2,6 +2,7 @@ package com.example.askdoctors.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,10 @@ public class HomeFragment extends Fragment {
         questions = new ArrayList<>();
         keys = new ArrayList<>();
 
+        String accType = getActivity().getIntent().getStringExtra("user").trim();
+        if (!TextUtils.isEmpty(accType) &&accType.equals("Doctor"))
+            askBtn.setVisibility(View.GONE);
+
         askBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,9 +69,11 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
+
     private void getQuestions(){
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference messagesRef = rootRef.child("Questions");
+        DatabaseReference questionsRef = rootRef.child("Questions");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -92,6 +99,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         };
-        messagesRef.addListenerForSingleValueEvent(eventListener);
+        questionsRef.addListenerForSingleValueEvent(eventListener);
     }
+
 }

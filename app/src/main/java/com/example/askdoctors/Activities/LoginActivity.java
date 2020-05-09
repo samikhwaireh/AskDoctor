@@ -132,7 +132,9 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.LENGTH_LONG).show();
                                 }else {
                                     Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this , HomeActivity.class));
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    intent.putExtra("user", "Doctor");
+                                    startActivity(intent);
                                     finish();
                                 }
                             }
@@ -163,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                                             if (dataSnapshot.getValue()!=null){
                                                 Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(LoginActivity.this , HomeActivity.class);
+                                                intent.putExtra("user","customer");
                                                 startActivity(intent);
                                                 finish();
 

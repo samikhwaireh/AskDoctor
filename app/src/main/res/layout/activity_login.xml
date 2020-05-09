@@ -136,18 +136,20 @@
                        android:id="@+id/doctor_switcher"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_below="@id/password_input"
-                       android:layout_marginTop="15dp"
-                       android:layout_centerHorizontal="true"/>
+                       android:layout_below="@id/switcher"
+                       android:layout_marginTop="15dp"/>
+
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Doctor"
-                       android:textSize="12sp"
-                       android:textColor="@color/colorMain"
+                       android:layout_alignTop="@id/doctor_switcher"
+                       android:layout_marginVertical="5dp"
+                       android:layout_marginStart="4dp"
+                       android:layout_marginTop="5dp"
                        android:layout_toEndOf="@id/doctor_switcher"
-                       android:layout_below="@id/password_input"
-                       android:layout_marginVertical="19dp"/>
+                       android:text="Doctor"
+                       android:textColor="@color/colorMain"
+                       android:textSize="12sp" />
 
                    <Button
                        android:id="@+id/login_btn"
@@ -156,8 +158,8 @@
                        android:text="login"
                        android:textColor="@color/colorMain"
                        android:background="@drawable/btn_icon"
-                       android:layout_below="@id/switcher"
-                       android:layout_marginTop="40dp"
+                       android:layout_below="@id/doctor_switcher"
+                       android:layout_marginTop="10dp"
                        android:layout_marginBottom="10dp"/>
                    <LinearLayout
                        android:layout_width="wrap_content"

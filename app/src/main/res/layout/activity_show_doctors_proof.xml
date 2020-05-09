@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ShowDoctorsProof">
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:id="@+id/showProofs_ImageView"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/showProofs_ImageView"
+        android:id="@+id/showProofs_userImageView"
+        android:src="@drawable/ic_person_black_24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/showProofs_userNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/showProofs_userImageView"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@id/showProofs_userImageView"
+        android:text="userName"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/showProofs_userImageView"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="University :"
+        android:id="@+id/showProofs_universityTv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/showProofs_universityTv"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Graduate :"
+        android:id="@+id/showProofs_graduateTv"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/showProofs_graduateTv"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_icon"
+        android:text="Confirm"
+        android:drawableLeft="@drawable/ic_check_black_24dp"
+        android:drawablePadding="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="15dp"
+        android:id="@+id/showProofs_confirmBtn"
+        android:layout_marginTop="10dp"
+        android:onClick="confirm"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/showProofs_confirmBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_icon"
+        android:text="Back"
+        android:drawableLeft="@drawable/ic_undo_black_24dp"
+        android:drawablePadding="5dp"
+        android:paddingBottom="15dp"
+        android:paddingRight="20dp"
+        android:onClick="back"/>
+</RelativeLayout>
