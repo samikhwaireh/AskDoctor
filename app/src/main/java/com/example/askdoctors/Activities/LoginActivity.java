@@ -126,17 +126,19 @@ public class LoginActivity extends AppCompatActivity {
                         doctorsReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Doctors doctors = dataSnapshot.getValue(Doctors.class);
-                                if (doctors.getStatus().equals("Waiting")){
-                                    Toasty.info(LoginActivity.this, "Please wait while admin user confirm your account",
-                                            Toast.LENGTH_LONG).show();
-                                }else {
-                                    Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    intent.putExtra("user", "Doctor");
-                                    startActivity(intent);
-                                    finish();
-                                }
+                              if (dataSnapshot.exists()){
+                                  Doctors doctors = dataSnapshot.getValue(Doctors.class);
+                                  if (doctors.getStatus().equals("Waiting")){
+                                      Toasty.info(LoginActivity.this, "Please wait while admin user confirm your account",
+                                              Toast.LENGTH_LONG).show();
+                                  }else {
+                                      Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
+                                      Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                      intent.putExtra("user", "Doctor");
+                                      startActivity(intent);
+                                      finish();
+                                  }
+                              }
                             }
 
                             @Override

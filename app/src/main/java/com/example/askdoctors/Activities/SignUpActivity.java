@@ -284,7 +284,21 @@ public class SignUpActivity extends AppCompatActivity {
             birthday.requestFocus();
         } else if (Gender.equals("")){
             Toast.makeText(this, "please select your gender", Toast.LENGTH_LONG).show();
-        } else {
+        }else if (first_name.contains("1") ||first_name.contains("2") ||first_name.contains("3")
+         || first_name.contains("4") ||first_name.contains("5") ||first_name.contains("6") ||first_name.contains("7")
+        || first_name.contains("8") || first_name.contains("9") ||first_name.contains("0")){
+
+            firstName.setError("Name mustn't has a numbers");
+            firstName.requestFocus();
+
+        }else if (last_name.contains("1") ||last_name.contains("2") ||last_name.contains("3")
+                || last_name.contains("4") ||last_name.contains("5") ||last_name.contains("6") ||last_name.contains("7")
+                || last_name.contains("8") || last_name.contains("9") ||last_name.contains("0")){
+
+            lastName.setError("Name mustn't has a numbers");
+            lastName.requestFocus();
+
+        }else {
             EmailAndPasswordAuthentication(Email, Password, first_name, last_name, Gender, birthday_date);
         }
     }
