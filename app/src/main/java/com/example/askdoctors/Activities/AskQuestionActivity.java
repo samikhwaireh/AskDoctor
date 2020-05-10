@@ -207,6 +207,7 @@ public class AskQuestionActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         Intent intent = new Intent(AskQuestionActivity.this, HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("user","customer");
                         startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {

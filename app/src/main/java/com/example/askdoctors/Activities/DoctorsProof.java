@@ -30,8 +30,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.askdoctors.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -114,9 +119,38 @@ public class DoctorsProof extends AppCompatActivity {
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(DoctorsProof.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+
+                final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                Map<String, String> map = (HashMap<String, String>)getIntent().getSerializableExtra("map");
+                String email = map.get("email");
+                String password = map.get("password");
+
+                AuthCredential credential  = EmailAuthProvider.getCredential(email,password);
+                firebaseUser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Intent intent = new Intent(DoctorsProof.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toasty.error(DoctorsProof.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toasty.error(DoctorsProof.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
+                    }
+                });
+
+
 
             }
         });
