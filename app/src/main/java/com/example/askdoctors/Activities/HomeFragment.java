@@ -98,10 +98,11 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
                             question.setProfileImage(profileImage);
                             question.setUserName(UserName);
                             question.setQuestion(Question);
-                            questions.add(question);
 
+                        System.out.println(Question + Image);
+                            questions.add(question);
                             adapter.notifyDataSetChanged();
-                       
+
                     }
 
                 }

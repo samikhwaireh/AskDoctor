@@ -37,23 +37,41 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
     @Override
     public void onBindViewHolder(@NonNull questionsHolder holder, int position) {
        if (questions.isEmpty()){
+
            holder.userNameTv.setVisibility(View.GONE);
            holder.diseaseTv.setText("No asked questions :(");
            holder.questionTv.setVisibility(View.GONE);
            holder.questionImageView.setVisibility(View.GONE);
            holder.userImageView.setVisibility(View.GONE);
            holder.answerBtn.setVisibility(View.GONE);
+           holder.quesFirstrow.setVisibility(View.GONE);
+           holder.disFirstrow.setVisibility(View.GONE);
+
        }else {
+
+           holder.userNameTv.setVisibility(View.VISIBLE);
+           holder.questionTv.setVisibility(View.VISIBLE);
+           holder.questionImageView.setVisibility(View.VISIBLE);
+           holder.userImageView.setVisibility(View.VISIBLE);
+           holder.answerBtn.setVisibility(View.VISIBLE);
+           holder.quesFirstrow.setVisibility(View.VISIBLE);
+           holder.disFirstrow.setVisibility(View.VISIBLE);
+
            if (questions.get(position).getImage().equals("noImage")){
                holder.questionImageView.setVisibility(View.GONE);
            }else {
                Picasso.get().load(questions.get(position).getImage()).into(holder.questionImageView);
+               System.out.println(5);
            }
 
            Picasso.get().load(questions.get(position).getProfileImage()).into(holder.userImageView);
+           System.out.println(1);
            holder.questionTv.setText(questions.get(position).getQuestion());
+           System.out.println(2);
            holder.diseaseTv.setText(questions.get(position).getDisease());
+           System.out.println(3);
            holder.userNameTv.setText(questions.get(position).getUserName());
+           System.out.println(4);
        }
 
     }
@@ -69,7 +87,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
 
     public class questionsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView userImageView,questionImageView;
-        TextView userNameTv,diseaseTv,questionTv;
+        TextView userNameTv,diseaseTv,questionTv,disFirstrow,quesFirstrow;
         Button answerBtn;
         onQuestionClicked questionClicked;
 
@@ -82,6 +100,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
             diseaseTv = itemView.findViewById(R.id.questionAdapter_diseaseTv);
             questionTv = itemView.findViewById(R.id.questionAdapter_QuestionTv);
             answerBtn = itemView.findViewById(R.id.questionAdapter_answerBtn);
+            disFirstrow = itemView.findViewById(R.id.disease);
+            quesFirstrow = itemView.findViewById(R.id.qu);
 
             answerBtn.setOnClickListener(this);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

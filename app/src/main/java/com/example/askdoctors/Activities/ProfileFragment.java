@@ -196,7 +196,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                DatabaseReference reference = firebaseDatabase.getReference("Questions").child(firebaseAuth.getUid());
+                DatabaseReference reference = firebaseDatabase.getReference("Questions");
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -204,16 +204,17 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
                         if (dataSnapshot.exists()){
 
                             for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                String key = ds.getKey();
-                                if (dataSnapshot.child(key).child("Disease").getValue(String.class)
-                                .equals(questions.get(position).getDisease())
-                                && dataSnapshot.child(key).child("Question").getValue(String.class)
-                                .equals(questions.get(position).getQuestion()) &&
-                                dataSnapshot.child(key).child("Image").getValue(String.class)
-                                .equals(questions.get(position).getImage())){
 
-                                    DatabaseReference databaseReference = firebaseDatabase.getReference("Questions")
-                                            .child(firebaseAuth.getUid()).child(key);
+                                if (ds.child("Disease").getValue(String.class)
+                                .equals(questions.get(position).getDisease())
+                                && ds.child("Question").getValue(String.class)
+                                .equals(questions.get(position).getQuestion()) &&
+                                ds.child("Image").getValue(String.class)
+                                .equals(questions.get(position).getImage())
+                                && ds.child("ID").getValue(String.class)
+                                        .equals(firebaseAuth.getUid())){
+                                    String key = ds.getKey();
+                                    DatabaseReference databaseReference = firebaseDatabase.getReference("Questions").child(key);
                                     databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

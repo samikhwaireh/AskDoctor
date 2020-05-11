@@ -44,7 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="question"
-        android:layout_below="@id/qu"
+        android:layout_toEndOf="@id/qu"
+        android:layout_alignBottom="@id/qu"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:id="@+id/questionAdapter_QuestionTv"/>
@@ -80,4 +81,17 @@
         android:text="Answer"
         android:id="@+id/questionAdapter_answerBtn"
         android:drawableLeft="@drawable/ic_question_answer_black_24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/questionAdapter_answerBtn"
+        android:layout_alignStart="@+id/questionAdapter_answerBtn"
+        android:layout_alignEnd="@+id/questionAdapter_answerBtn"
+        android:layout_toRightOf="@id/questionAdapter_answerBtn"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="-30dp"
+        android:layout_marginLeft="-30dp"
+        android:background="@drawable/adapter_line" />
+
 </RelativeLayout>
