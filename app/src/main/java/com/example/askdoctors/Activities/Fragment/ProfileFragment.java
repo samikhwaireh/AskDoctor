@@ -42,9 +42,9 @@ import es.dmoral.toasty.Toasty;
 
 public class ProfileFragment extends Fragment implements QuestionsAdapter.onQuestionClicked {
 
-    TextView birthdayTv,genderTv,userNameTv,logouBtn,doctorOrUserTv;
+    TextView birthdayTv,genderTv,userNameTv ,doctorOrUserTv;
     Button updateBtn;
-    ImageView profileImageView;
+    ImageView profileImageView, logouBtn;
     RecyclerView profileRv;
 
     private FirebaseAuth firebaseAuth;

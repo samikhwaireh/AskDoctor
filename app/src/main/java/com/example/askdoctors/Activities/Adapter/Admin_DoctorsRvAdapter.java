@@ -45,8 +45,6 @@ public class Admin_DoctorsRvAdapter extends RecyclerView.Adapter<Admin_DoctorsRv
         }else {
             holder.confirmBtn.setText("Confirm");
         }
-
-
     }
 
     @Override
