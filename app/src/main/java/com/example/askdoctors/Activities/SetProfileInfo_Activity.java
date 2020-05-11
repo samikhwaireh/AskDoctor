@@ -45,6 +45,7 @@ public class SetProfileInfo_Activity extends AppCompatActivity {
     String accType;
     ProgressBar progressBar;
 
+
     private FirebaseDatabase firebaseDatabase;
     private FirebaseStorage firebaseStorage;
     private FirebaseAuth firebaseAuth;
@@ -144,6 +145,7 @@ public class SetProfileInfo_Activity extends AppCompatActivity {
                                         Toasty.success(SetProfileInfo_Activity.this, "Account" +
                                                 " created successfully", Toasty.LENGTH_LONG).show();
                                         Intent intent = new Intent(SetProfileInfo_Activity.this, HomeActivity.class);
+                                        intent.putExtra("user", accType);
                                         startActivity(intent);
                                         finish();
                                     }
@@ -173,6 +175,11 @@ public class SetProfileInfo_Activity extends AppCompatActivity {
                     Toasty.error(SetProfileInfo_Activity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
+        }else {
+            Intent intent = new Intent(this,HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("user", accType);
+            startActivity(intent);
         }
     }
 }

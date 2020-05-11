@@ -33,12 +33,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -79,7 +83,6 @@ public class AskQuestionActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
 
 
-
         DatabaseReference reference = firebaseDatabase.getReference("Users").child(firebaseAuth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,6 +103,7 @@ public class AskQuestionActivity extends AppCompatActivity {
         });
 
     }
+
 
     public void Ask(View view){
         closeKeyboard();
@@ -136,10 +140,11 @@ public class AskQuestionActivity extends AppCompatActivity {
                                 QuestionDetails.put("Image", uri.toString());
                                 QuestionDetails.put("UserName", userName);
                                 QuestionDetails.put("profileImage", profileImage);
+                                QuestionDetails.put("Date",-1*new Date().getTime());
+                                QuestionDetails.put("ID", firebaseAuth.getUid());
 
                                 UUID uuid = UUID.randomUUID();
-                                DatabaseReference reference = firebaseDatabase.getReference("Questions")
-                                        .child(firebaseAuth.getUid()).child(uuid.toString());
+                                DatabaseReference reference = firebaseDatabase.getReference("Questions").child(uuid.toString());
                                 reference.setValue(QuestionDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -148,6 +153,7 @@ public class AskQuestionActivity extends AppCompatActivity {
                                                 Toasty.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                         Intent intent = new Intent(AskQuestionActivity.this, HomeActivity.class);
+                                        intent.putExtra("user","Users");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
 
@@ -190,14 +196,15 @@ public class AskQuestionActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
                 UUID uuid = UUID.randomUUID();
-                DatabaseReference reference = firebaseDatabase.getReference("Questions").child(firebaseAuth.getUid())
-                        .child(uuid.toString());
+                DatabaseReference reference = firebaseDatabase.getReference("Questions").child(uuid.toString());
                 Map<String, Object> QuestionDetails = new HashMap<>();
                 QuestionDetails.put("Question", question);
                 QuestionDetails.put("Disease", disease);
                 QuestionDetails.put("Image", "noImage");
                 QuestionDetails.put("UserName", userName);
                 QuestionDetails.put("profileImage", profileImage);
+                QuestionDetails.put("Date",-1*new Date().getTime());
+                QuestionDetails.put("ID", firebaseAuth.getUid());
 
                 reference.setValue(QuestionDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -207,7 +214,7 @@ public class AskQuestionActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         Intent intent = new Intent(AskQuestionActivity.this, HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("user","customer");
+                        intent.putExtra("user","Users");
                         startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {

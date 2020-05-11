@@ -1,14 +1,7 @@
 package com.example.askdoctors.Activities;
 
 public class User {
-    String firstName;
-    String lastName;
-    String accType;
-    String email;
-    String gender;
-    String id;
-    String password;
-    String profileImage;
+    String firstName,lastName,accType,email,birthday,gender,id,password,profileImage;
 
     public User(){
     }
@@ -43,6 +36,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender() {

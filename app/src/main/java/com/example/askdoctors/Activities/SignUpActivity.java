@@ -209,6 +209,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         intent.putExtra("accType", "Users");
                                         intent.putExtra("firstName", firstName);
                                         intent.putExtra("lastName", lastName);
+                                        intent.putExtra("accType", "Users");
                                         startActivity(intent);
                                         finish();
                                     }

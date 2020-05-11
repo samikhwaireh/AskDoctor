@@ -20,11 +20,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+import es.dmoral.toasty.Toasty;
+
+public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestionClicked {
     RecyclerView homeRv;
     Button askBtn;
 
@@ -34,6 +37,7 @@ public class HomeFragment extends Fragment {
     ArrayList<String> keys;
 
     QuestionsAdapter adapter;
+    String accType;
 
     @Nullable
     @Override
@@ -47,8 +51,10 @@ public class HomeFragment extends Fragment {
         questions = new ArrayList<>();
         keys = new ArrayList<>();
 
+        accType = getActivity().getIntent().getStringExtra("user");
+
         String accType = getActivity().getIntent().getStringExtra("user").trim();
-        if (!TextUtils.isEmpty(accType) &&accType.equals("Doctor"))
+        if (!TextUtils.isEmpty(accType) &&accType.equals("Doctors"))
             askBtn.setVisibility(View.GONE);
 
         askBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +67,7 @@ public class HomeFragment extends Fragment {
 
 
         getQuestions();
-        adapter = new QuestionsAdapter(questions);
+        adapter = new QuestionsAdapter(questions,this);
         homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRv.setAdapter(adapter);
 
@@ -72,34 +78,55 @@ public class HomeFragment extends Fragment {
 
 
     private void getQuestions(){
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference questionsRef = rootRef.child("Questions");
-        ValueEventListener eventListener = new ValueEventListener() {
+        DatabaseReference reference = firebaseDatabase.getReference("Questions");
+        final Query query = reference.orderByChild("Date").limitToLast(5);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    questions.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()){
 
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                   keys.add(ds.getKey());
+                            Questions question = new Questions();
+                            String Disease = ds.child("Disease").getValue(String.class);
+                            String Image = ds.child("Image").getValue(String.class);
+                            String Question = ds.child("Question").getValue(String.class);
+                            String UserName = ds.child("UserName").getValue(String.class);
+                            String profileImage = ds.child("profileImage").getValue(String.class);
+                            question.setDisease(Disease);
+                            question.setImage(Image);
+                            question.setProfileImage(profileImage);
+                            question.setUserName(UserName);
+                            question.setQuestion(Question);
+                            questions.add(question);
 
-                }
-
-                for (int index = 0; index<keys.size(); index++){
-                    for (DataSnapshot questionsSnapshot : dataSnapshot.child(keys.get(index)).getChildren()){
-                        Questions question = dataSnapshot.child(keys.get(index)).child(questionsSnapshot.getKey())
-                                .getValue(Questions.class);
-
-                        questions.add(question);
-                        adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
+                       
                     }
+
                 }
-
-
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-        questionsRef.addListenerForSingleValueEvent(eventListener);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toasty.error(getContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+            }
+        });
     }
 
+    @Override
+    public void answer(int position) {
+        Intent intent = new Intent(getContext(), AnswerActivity.class);
+        intent.putExtra("Disease", questions.get(position).getDisease());
+        intent.putExtra("Question", questions.get(position).getQuestion());
+        intent.putExtra("Image", questions.get(position).getImage());
+        intent.putExtra("ProfileImage", questions.get(position).getProfileImage());
+        intent.putExtra("UserName", questions.get(position).getUserName());
+        startActivity(intent);
+    }
+
+    @Override
+    public void deleteQuestion(int position) {
+        return;
+    }
 }

@@ -53,7 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         String isChecked = sharedPreferences.getString("isChecked", "0");
         if (isChecked.equals("1")){
             if(firebaseUser != null){
-                startActivity(new Intent(this , HomeActivity.class));
+                Intent intent = new Intent(this , HomeActivity.class);
+                intent.putExtra("user", sharedPreferences.getString("accType", "unknown"));
+                startActivity(intent);
                 finish();
             }
         }
@@ -134,7 +136,11 @@ public class LoginActivity extends AppCompatActivity {
                                   }else {
                                       Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
                                       Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                      intent.putExtra("user", "Doctor");
+                                      intent.putExtra("user", "Doctors");
+                                      SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE)
+                                              .edit();
+                                      editor.putString("accType","Doctors");
+                                      editor.apply();
                                       startActivity(intent);
                                       finish();
                                   }
@@ -167,7 +173,11 @@ public class LoginActivity extends AppCompatActivity {
                                             if (dataSnapshot.getValue()!=null){
                                                 Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(LoginActivity.this , HomeActivity.class);
-                                                intent.putExtra("user","customer");
+                                                intent.putExtra("user","Users");
+                                                SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE)
+                                                        .edit();
+                                                editor.putString("accType","Users");
+                                                editor.apply();
                                                 startActivity(intent);
                                                 finish();
 
