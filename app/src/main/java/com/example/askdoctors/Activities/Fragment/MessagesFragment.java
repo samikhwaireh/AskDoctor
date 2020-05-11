@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +11,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.askdoctors.R;
 
-public class SearchFragment extends Fragment {
-
+public class MessagesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_fragment, container, false);
+        View view = inflater.inflate(R.layout.messages_fragment, container, false);
 
         return view;
     }

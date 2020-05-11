@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.askdoctors.Activities.Adapter.Admin_DoctorsRvAdapter;
+import com.example.askdoctors.Activities.Model.Doctors;
+import com.example.askdoctors.Activities.Activity.ShowDoctorsProof;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.askdoctors.Activities.Adapter.Admin_AdminsRvAdapter;
+import com.example.askdoctors.Activities.Model.Admins;
 import com.example.askdoctors.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +32,7 @@ public class Admin_AdminsFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
-    ArrayList<Admins> Admins;
+    ArrayList<com.example.askdoctors.Activities.Model.Admins> Admins;
     Admin_AdminsRvAdapter adapter;
     @Nullable
     @Override

@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Model;
 
 public class User {
     String firstName,lastName,accType,email,birthday,gender,id,password,profileImage;

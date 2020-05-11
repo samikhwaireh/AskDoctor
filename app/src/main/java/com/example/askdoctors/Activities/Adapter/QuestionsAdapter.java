@@ -1,6 +1,5 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Adapter;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.R;
 import com.squareup.picasso.Picasso;
 
