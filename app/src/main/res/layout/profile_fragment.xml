@@ -15,9 +15,13 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/cardview_dark_background"
-                    android:id="@+id/bckgrnd"/>
+                    android:id="@+id/bckgrnd"
+                    android:layout_alignTop="@id/profile_ImageView"
+                    android:layout_marginTop="-10dp"
+                    android:layout_alignBottom="@id/profile_updateBtn"
+                    android:layout_marginBottom="-10dp"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="80dp"
