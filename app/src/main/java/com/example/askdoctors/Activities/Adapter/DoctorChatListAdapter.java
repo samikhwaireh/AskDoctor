@@ -82,7 +82,7 @@ public class DoctorChatListAdapter extends RecyclerView.Adapter<DoctorChatListAd
     @Override
     public int getItemCount() {
         if (mDoctors.isEmpty()){
-            return 1;
+            return 0;
         }else {
             return mDoctors.size();
         }
