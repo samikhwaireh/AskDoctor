@@ -195,6 +195,22 @@ public class ChatActivity extends AppCompatActivity {
                 Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
             }
         });
+
+        final DatabaseReference chatref1 = FirebaseDatabase.getInstance().getReference("ChatList")
+                .child(userId)
+                .child(firebaseUser.getUid());
+        chatref1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    chatref1.child("receiver").setValue(firebaseUser.getUid());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void seenMessage(){
