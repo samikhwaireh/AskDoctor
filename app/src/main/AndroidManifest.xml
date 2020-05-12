@@ -22,6 +22,7 @@
         <activity android:name=".Activities.Activity.DoctorsProof" />
         <activity android:name=".Activities.Activity.HomeActivity" />
         <activity android:name=".Activities.Activity.SignUpActivity" />
+        <activity android:name=".Activities.Activity.UpdateProfileActivity" />
         <activity android:name=".Activities.Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

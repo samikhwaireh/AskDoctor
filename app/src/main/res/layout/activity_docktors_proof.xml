@@ -25,13 +25,13 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="#000"
-            android:text="Upload your diploma"
+            android:text="Upload your CV"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="select Image"
+            android:text="select"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_icon"

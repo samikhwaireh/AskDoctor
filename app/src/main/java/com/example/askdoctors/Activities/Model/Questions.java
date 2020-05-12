@@ -9,6 +9,7 @@ public class Questions {
     private String image;
     private String profileImage;
     private String userName;
+    private String key;
 
     public Questions(String userId, String id, String question, String disease, String image, String profileImage, String userName) {
         this.userId = userId;
@@ -78,4 +79,13 @@ public class Questions {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
 }

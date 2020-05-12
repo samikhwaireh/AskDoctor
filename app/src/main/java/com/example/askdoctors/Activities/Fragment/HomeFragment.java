@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
 
 
         getQuestions();
-        adapter = new QuestionsAdapter(questions,this, getContext());
+        adapter = new QuestionsAdapter(questions,this,getContext());
         homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRv.setAdapter(adapter);
 
@@ -92,24 +92,41 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
                     questions.clear();
                     for (DataSnapshot ds : dataSnapshot.getChildren()){
 
-                            Questions question = new Questions();
-                            String Disease = ds.child("disease").getValue(String.class);
-                            String Image = ds.child("image").getValue(String.class);
-                            String Question = ds.child("question").getValue(String.class);
-                            String UserName = ds.child("userName").getValue(String.class);
-                            String profileImage = ds.child("profileImage").getValue(String.class);
+                            final Questions question = new Questions();
+                            final String Disease = ds.child("disease").getValue(String.class);
+                            final String Image = ds.child("image").getValue(String.class);
+                            final String Question = ds.child("question").getValue(String.class);
+                            final String UserName = ds.child("userName").getValue(String.class);
+                            final String key = ds.getKey();
 
-                            if (!TextUtils.isEmpty(UserName)){
-                                question.setDisease(Disease);
-                                question.setImage(Image);
-                                question.setProfileImage(profileImage);
-                                question.setUserName(UserName);
-                                question.setQuestion(Question);
+                            DatabaseReference databaseReference = firebaseDatabase.getReference(accType)
+                                    .child(ds.child("id").getValue(String.class)).child("profileImage");
 
-                                questions.add(question);
-                                adapter.notifyDataSetChanged();
+                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            }
+                                    final String profileImage = dataSnapshot.getValue(String.class);
+                                    if (!TextUtils.isEmpty(UserName)){
+                                        question.setDisease(Disease);
+                                        question.setImage(Image);
+                                        question.setProfileImage(profileImage);
+                                        question.setUserName(UserName);
+                                        question.setQuestion(Question);
+                                        question.setKey(key);
+                                        questions.add(question);
+                                        adapter.notifyDataSetChanged();
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toasty.error(getContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+                                }
+                            });
+
 
 
                     }
@@ -132,6 +149,8 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
         intent.putExtra("Image", questions.get(position).getImage());
         intent.putExtra("ProfileImage", questions.get(position).getProfileImage());
         intent.putExtra("UserName", questions.get(position).getUserName());
+        intent.putExtra("key", questions.get(position).getKey());
+        intent.putExtra("accType", accType);
         startActivity(intent);
     }
 

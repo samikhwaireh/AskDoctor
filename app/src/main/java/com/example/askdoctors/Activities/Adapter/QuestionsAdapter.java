@@ -44,32 +44,32 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
 
     @Override
     public void onBindViewHolder(@NonNull questionsHolder holder, final int position) {
-       if (questions.isEmpty()){
+        if (questions.isEmpty()){
 
-           holder.userNameTv.setVisibility(View.GONE);
-           holder.diseaseTv.setText("No asked questions :(");
-           holder.questionTv.setVisibility(View.GONE);
-           holder.questionImageView.setVisibility(View.GONE);
-           holder.userImageView.setVisibility(View.GONE);
-           holder.answerBtn.setVisibility(View.GONE);
-           holder.quesFirstrow.setVisibility(View.GONE);
-           holder.disFirstrow.setVisibility(View.GONE);
+            holder.userNameTv.setVisibility(View.GONE);
+            holder.diseaseTv.setText("No asked questions :(");
+            holder.questionTv.setVisibility(View.GONE);
+            holder.questionImageView.setVisibility(View.GONE);
+            holder.userImageView.setVisibility(View.GONE);
+            holder.answerBtn.setVisibility(View.GONE);
+            holder.quesFirstrow.setVisibility(View.GONE);
+            holder.disFirstrow.setVisibility(View.GONE);
 
-       }else {
+        }else {
 
-           holder.userNameTv.setVisibility(View.VISIBLE);
-           holder.questionTv.setVisibility(View.VISIBLE);
-           holder.questionImageView.setVisibility(View.VISIBLE);
-           holder.userImageView.setVisibility(View.VISIBLE);
-           holder.answerBtn.setVisibility(View.VISIBLE);
-           holder.quesFirstrow.setVisibility(View.VISIBLE);
-           holder.disFirstrow.setVisibility(View.VISIBLE);
+            holder.userNameTv.setVisibility(View.VISIBLE);
+            holder.questionTv.setVisibility(View.VISIBLE);
+            holder.questionImageView.setVisibility(View.VISIBLE);
+            holder.userImageView.setVisibility(View.VISIBLE);
+            holder.answerBtn.setVisibility(View.VISIBLE);
+            holder.quesFirstrow.setVisibility(View.VISIBLE);
+            holder.disFirstrow.setVisibility(View.VISIBLE);
 
-           if (questions.get(position).getImage().equals("noImage")){
-               holder.questionImageView.setVisibility(View.GONE);
-           }else {
-               Picasso.get().load(questions.get(position).getImage()).into(holder.questionImageView);
-           }
+            if (questions.get(position).getImage().equals("noImage")){
+                holder.questionImageView.setVisibility(View.GONE);
+            }else {
+                Picasso.get().load(questions.get(position).getImage()).into(holder.questionImageView);
+            }
 
             if (!TextUtils.isEmpty(questions.get(position).getProfileImage()))
                 Picasso.get().load(questions.get(position).getProfileImage()).into(holder.userImageView);
@@ -78,9 +78,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
             }
 
 
-           holder.questionTv.setText(questions.get(position).getQuestion());
-           holder.diseaseTv.setText(questions.get(position).getDisease());
-           holder.userNameTv.setText(questions.get(position).getUserName());
+            holder.questionTv.setText(questions.get(position).getQuestion());
+            holder.diseaseTv.setText(questions.get(position).getDisease());
+            holder.userNameTv.setText(questions.get(position).getUserName());
 
 //           holder.userImageView.setOnClickListener(new View.OnClickListener() {
 //               @Override
@@ -91,7 +91,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
 //                   mContext.startActivity(intent);
 //               }
 //           });
-       }
+        }
     }
 
     @Override
