@@ -1,19 +1,7 @@
 package com.example.askdoctors.Activities;
 
 public class Doctors {
-    public String firstName;
-    String lastName;
-    String password;
-    String id;
-    String gender;
-    String email;
-    String birthday;
-    String accType;
-    String University;
-    String Status;
-    String Graduate;
-    String Diploma;
-    String profileImage;
+    public String firstName, lastName,password,id,gender,email,birthday,accType,university,status,graduate,diploma,profileImage;
 
     public Doctors() {
     }
@@ -83,35 +71,35 @@ public class Doctors {
     }
 
     public String getUniversity() {
-        return University;
+        return university;
     }
 
     public void setUniversity(String university) {
-        University = university;
+        this.university = university;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 
     public String getGraduate() {
-        return Graduate;
+        return graduate;
     }
 
     public void setGraduate(String graduate) {
-        Graduate = graduate;
+        this.graduate = graduate;
     }
 
     public String getDiploma() {
-        return Diploma;
+        return diploma;
     }
 
     public void setDiploma(String diploma) {
-        Diploma = diploma;
+        this.diploma = diploma;
     }
 
     public String getProfileImage() {

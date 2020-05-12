@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
 
     private void getQuestions(){
         DatabaseReference reference = firebaseDatabase.getReference("Questions");
-        final Query query = reference.orderByChild("Date").limitToLast(5);
+        final Query query = reference.orderByChild("date").limitToLast(5);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -88,20 +88,24 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
                     for (DataSnapshot ds : dataSnapshot.getChildren()){
 
                             Questions question = new Questions();
-                            String Disease = ds.child("Disease").getValue(String.class);
-                            String Image = ds.child("Image").getValue(String.class);
-                            String Question = ds.child("Question").getValue(String.class);
-                            String UserName = ds.child("UserName").getValue(String.class);
+                            String Disease = ds.child("disease").getValue(String.class);
+                            String Image = ds.child("image").getValue(String.class);
+                            String Question = ds.child("question").getValue(String.class);
+                            String UserName = ds.child("userName").getValue(String.class);
                             String profileImage = ds.child("profileImage").getValue(String.class);
-                            question.setDisease(Disease);
-                            question.setImage(Image);
-                            question.setProfileImage(profileImage);
-                            question.setUserName(UserName);
-                            question.setQuestion(Question);
 
-                        System.out.println(Question + Image);
-                            questions.add(question);
-                            adapter.notifyDataSetChanged();
+                            if (!TextUtils.isEmpty(UserName)){
+                                question.setDisease(Disease);
+                                question.setImage(Image);
+                                question.setProfileImage(profileImage);
+                                question.setUserName(UserName);
+                                question.setQuestion(Question);
+
+                                questions.add(question);
+                                adapter.notifyDataSetChanged();
+
+                            }
+
 
                     }
 

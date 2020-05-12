@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -125,39 +126,38 @@ public class LoginActivity extends AppCompatActivity {
                     if (doctorSwitcher.isChecked()){
 
                         DatabaseReference doctorsReference = firebaseDatabase.getReference("Doctors").child(firebaseAuth.getUid());
-                        doctorsReference.addValueEventListener(new ValueEventListener() {
+                        doctorsReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                              if (dataSnapshot.exists()){
-                                  Doctors doctors = dataSnapshot.getValue(Doctors.class);
-                                  if (doctors.getStatus().equals("Waiting")){
-                                      Toasty.info(LoginActivity.this, "Please wait while admin user confirm your account",
-                                              Toast.LENGTH_LONG).show();
-                                  }else {
-                                      Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
-                                      Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                      intent.putExtra("user", "Doctors");
-                                      SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE)
-                                              .edit();
-                                      editor.putString("accType","Doctors");
-                                      editor.apply();
-                                      startActivity(intent);
-                                      finish();
-                                  }
-                              }
+                                if (dataSnapshot.exists()){
+                                    Doctors doctors = dataSnapshot.getValue(Doctors.class);
+                                    if (doctors.getStatus().equals("Waiting")){
+                                        Toasty.info(LoginActivity.this, "Please wait while admin user confirm your account",
+                                                Toast.LENGTH_LONG).show();
+                                    }else {
+                                        Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                        intent.putExtra("user", "Doctors");
+                                        SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE)
+                                                .edit();
+                                        editor.putString("accType","Doctors");
+                                        editor.apply();
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toasty.error(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                Toasty.error(LoginActivity.this, databaseError.getMessage(), Toasty.LENGTH_LONG).show();
                             }
                         });
                     }else {
                         DatabaseReference reference = firebaseDatabase.getReference("Admins").child(firebaseAuth.getUid());
-                        reference.addValueEventListener(new ValueEventListener() {
+                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                                 if (dataSnapshot.getValue() != null){
 
                                     Toasty.success(LoginActivity.this , "login successfully" , Toast.LENGTH_SHORT).show();
@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }else {
 
                                     DatabaseReference reference = firebaseDatabase.getReference("Users").child(firebaseAuth.getUid());
-                                    reference.addValueEventListener(new ValueEventListener() {
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -189,16 +189,15 @@ public class LoginActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Toasty.error(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                            Toasty.error(LoginActivity.this, databaseError.getMessage(), Toasty.LENGTH_LONG).show();
                                         }
                                     });
                                 }
-
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toasty.error(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                Toasty.error(LoginActivity.this, databaseError.getMessage(), Toasty.LENGTH_LONG).show();
                             }
                         });
                     }

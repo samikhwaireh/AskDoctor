@@ -116,10 +116,10 @@ public class Admin_DoctorsFragment extends Fragment implements Admin_DoctorsRvAd
                             Map<String, Object> confirmitionMsg = new HashMap<>();
                             final String msg;
                             if (doctors.get(positon).getStatus().equals("Waiting")){
-                                confirmitionMsg.put("Status", "confirmed");
+                                confirmitionMsg.put("status", "confirmed");
                                 msg = "Confirmed";
                             }else {
-                                confirmitionMsg.put("Status", "Waiting");
+                                confirmitionMsg.put("status", "Waiting");
                                 msg = "Unconfirmed";
                             }
 

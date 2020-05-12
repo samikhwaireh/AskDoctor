@@ -1,14 +1,7 @@
 package com.example.askdoctors.Activities;
 
 public class Admins {
-    String accType;
-    String birthday;
-    String email;
-    String firstName;
-    String gender;
-    String lastName;
-    String password;
-    String profileImage;
+    String accType,birthday,email,firstName,gender,lastName,password,profileImage;
 
     public Admins(){
     }

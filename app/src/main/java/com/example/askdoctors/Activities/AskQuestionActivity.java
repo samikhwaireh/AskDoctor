@@ -64,6 +64,7 @@ public class AskQuestionActivity extends AppCompatActivity {
 
     User user;
     String userName, profileImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,8 @@ public class AskQuestionActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
                 userNameTv.setText(user.getFirstName() + " " + user.getLastName());
-                Picasso.get().load(user.getProfileImage()).into(userImageView);
+                if (!TextUtils.isEmpty(user.getProfileImage()))
+                     Picasso.get().load(user.getProfileImage()).into(userImageView);
 
                 userName = user.getFirstName() + " " + user.getLastName();
                 profileImage = user.getProfileImage();
@@ -135,13 +137,13 @@ public class AskQuestionActivity extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
 
                                 Map<String, Object> QuestionDetails = new HashMap<>();
-                                QuestionDetails.put("Question", question);
-                                QuestionDetails.put("Disease", disease);
-                                QuestionDetails.put("Image", uri.toString());
-                                QuestionDetails.put("UserName", userName);
+                                QuestionDetails.put("question", question);
+                                QuestionDetails.put("disease", disease);
+                                QuestionDetails.put("image", uri.toString());
+                                QuestionDetails.put("userName", userName);
                                 QuestionDetails.put("profileImage", profileImage);
-                                QuestionDetails.put("Date",-1*new Date().getTime());
-                                QuestionDetails.put("ID", firebaseAuth.getUid());
+                                QuestionDetails.put("date",-1*new Date().getTime());
+                                QuestionDetails.put("id", firebaseAuth.getUid());
 
                                 UUID uuid = UUID.randomUUID();
                                 DatabaseReference reference = firebaseDatabase.getReference("Questions").child(uuid.toString());
@@ -198,13 +200,13 @@ public class AskQuestionActivity extends AppCompatActivity {
                 UUID uuid = UUID.randomUUID();
                 DatabaseReference reference = firebaseDatabase.getReference("Questions").child(uuid.toString());
                 Map<String, Object> QuestionDetails = new HashMap<>();
-                QuestionDetails.put("Question", question);
-                QuestionDetails.put("Disease", disease);
-                QuestionDetails.put("Image", "noImage");
-                QuestionDetails.put("UserName", userName);
+                QuestionDetails.put("question", question);
+                QuestionDetails.put("disease", disease);
+                QuestionDetails.put("image", "noImage");
+                QuestionDetails.put("userName", userName);
                 QuestionDetails.put("profileImage", profileImage);
-                QuestionDetails.put("Date",-1*new Date().getTime());
-                QuestionDetails.put("ID", firebaseAuth.getUid());
+                QuestionDetails.put("date",-1*new Date().getTime());
+                QuestionDetails.put("id", firebaseAuth.getUid());
 
                 reference.setValue(QuestionDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

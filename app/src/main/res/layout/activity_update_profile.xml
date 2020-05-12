@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.UpdateProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/update_progressbar"
+                    android:layout_below="@id/update_pickdateBtn"
+                    android:layout_centerHorizontal="true"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/colorAccent"
+                    app:civ_border_overlay="true"
+                    android:id="@+id/update_userImage"/>
+
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="First name"
+                    android:layout_below="@id/update_userImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/input_text_box"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_border_color_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:inputType="text"
+                    android:id="@+id/update_firstNameEt"/>
+
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/update_firstNameEt"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/input_text_box"
+                    android:hint="Last name"
+                    android:id="@+id/update_lastNameEt"
+                    android:drawableLeft="@drawable/ic_border_color_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:inputType="text"
+                    android:layout_centerHorizontal="true"/>
+
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/update_lastNameEt"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/input_text_box"
+                    android:layout_marginTop="10dp"
+                    android:hint="Birthday"
+                    android:padding="10dp"
+                    android:enabled="false"
+                    android:id="@+id/update_birthdayEt"
+                    android:inputType="text"
+                    android:drawableLeft="@drawable/ic_cake_black_24dp"
+                    android:drawablePadding="5dp"/>
+
+                <Button
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/update_birthdayEt"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/btn_icon"
+                    android:layout_marginTop="10dp"
+                    android:text="Pick date"
+                    android:paddingBottom="15dp"
+                    android:id="@+id/update_pickdateBtn"
+                    android:drawableLeft="@drawable/ic_date_range_black_24dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Gender :"
+                    android:layout_below="@id/update_pickdateBtn"
+                    android:layout_alignLeft="@id/update_pickdateBtn"
+                    android:layout_marginTop="10dp"
+                    android:textSize="17sp"
+                    android:id="@+id/gendertv"
+                    android:drawableLeft="@drawable/ic_wc_black_24dp"
+                    android:drawablePadding="5dp"/>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gendertv"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/update_genderRgBtn"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Male"
+                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:id="@+id/update_maleRBtn"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Female"
+                        android:drawableLeft="@drawable/ic_face_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:id="@+id/update_femaleRBtn"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Other"
+                        android:drawableLeft="@drawable/ic_close_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:id="@+id/update_otherRBtn"/>
+                </RadioGroup>
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_text_box"
+                    android:layout_below="@id/update_genderRgBtn"
+                    android:layout_centerHorizontal="true"
+                    android:padding="10dp"
+                    android:hint="University"
+                    android:drawableLeft="@drawable/ic_business_center_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:inputType="text"
+                    android:id="@+id/update_universityEt"/>
+
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/update_universityEt"
+                    android:background="@drawable/input_text_box"
+                    android:padding="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:hint="Graduate"
+                    android:drawableLeft="@drawable/ic_layers_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:enabled="false"
+                    android:id="@+id/update_graduateEt"
+                    android:inputType="text"
+                    android:layout_marginTop="10dp"/>
+
+                <Button
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_icon"
+                    android:text="pick graduate date"
+                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                    android:layout_below="@id/update_graduateEt"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/update_updateGradDateBtn"/>
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_below="@id/update_updateGradDateBtn"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/ic_launcher"
+                    android:id="@+id/update_diplomaImageView"/>
+
+                <Button
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/update_diplomaImageView"
+                    android:background="@drawable/btn_icon"
+                    android:text="Update"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_update_black_24dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/update_updateBtn"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

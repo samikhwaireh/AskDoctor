@@ -167,7 +167,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 //hashMap.put("Diploma", null);
                                 //hashMap.put("University", null);
                                 //hashMap.put("Graduate", null);
-                                hashMap.put("Status", "Waiting");
+                                hashMap.put("status", "Waiting");
 
                                 Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
                                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -135,17 +135,21 @@ public class SetProfileInfo_Activity extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
 
                                     progressBar.setVisibility(View.GONE);
-                                    if (accType.equals("Doctors")){
-                                        Toasty.info(SetProfileInfo_Activity.this, "Account" +
-                                                " created successfully, Please wait while admin confirms your account", Toasty.LENGTH_LONG).show();
-                                        Intent intent = new Intent(SetProfileInfo_Activity.this, LoginActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }else {
+                                    if (accType.equals("Users")){
+
                                         Toasty.success(SetProfileInfo_Activity.this, "Account" +
                                                 " created successfully", Toasty.LENGTH_LONG).show();
                                         Intent intent = new Intent(SetProfileInfo_Activity.this, HomeActivity.class);
                                         intent.putExtra("user", accType);
+                                        startActivity(intent);
+                                        finish();
+
+                                    }else {
+
+                                        Toasty.info(SetProfileInfo_Activity.this, "Account" +
+                                                " created successfully, Please wait while admin confirms your account", Toasty.LENGTH_LONG).show();
+                                        Intent intent = new Intent(SetProfileInfo_Activity.this, LoginActivity.class);
+                                        firebaseAuth.signOut();
                                         startActivity(intent);
                                         finish();
                                     }
@@ -176,10 +180,23 @@ public class SetProfileInfo_Activity extends AppCompatActivity {
                 }
             });
         }else {
-            Intent intent = new Intent(this,HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("user", accType);
-            startActivity(intent);
+
+            if (accType.equals("Users")){
+                Intent intent = new Intent(this,HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("user", accType);
+                startActivity(intent);
+
+            }else {
+
+                Toasty.info(SetProfileInfo_Activity.this, "Account" +
+                        " created successfully, Please wait while admin confirms your account", Toasty.LENGTH_LONG).show();
+                Intent intent = new Intent(SetProfileInfo_Activity.this, LoginActivity.class);
+                firebaseAuth.signOut();
+                startActivity(intent);
+                finish();
+            }
+
         }
     }
 }

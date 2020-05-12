@@ -51,6 +51,8 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
     QuestionsAdapter adapter;
     ArrayList<Questions> questions;
 
+    String firstName,lastName,birthday,gender,profileImage;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,27 +95,49 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         if (accType.equals("Users"))
             getAskedQuestions();
 
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UpdateProfileActivity.class);
+                intent.putExtra("accType",accType);
+                intent.putExtra("firstName", firstName);
+                intent.putExtra("lastName", lastName);
+                intent.putExtra("gender",gender);
+                intent.putExtra("birthday", birthday);
+                intent.putExtra("profileImage", profileImage);
+                startActivity(intent);
+            }
+        });
+
         adapter = new QuestionsAdapter(questions,this);
         profileRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        profileRv.setNestedScrollingEnabled(false);
         profileRv.setAdapter(adapter);
 
         return  view;
     }
 
-    public  void getprofileInfo(){
+    private  void getprofileInfo(){
         DatabaseReference reference = firebaseDatabase.getReference(accType).child(firebaseAuth.getUid());
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     if (accType.equals("Doctors")){
 
                         doctor = dataSnapshot.getValue(Doctors.class);
-                        userNameTv.setText(doctor.getFirstName() + " " + doctor.getLastName());
-                        birthdayTv.setText(doctor.getBirthday());
-                        genderTv.setText(doctor.getGender());
-                        if (!TextUtils.isEmpty(doctor.getProfileImage())){
-                            Picasso.get().load(doctor.getProfileImage()).into(profileImageView);
+
+                        firstName = doctor.getFirstName();
+                        lastName = doctor.getLastName();
+                        birthday = doctor.getBirthday();
+                        gender = doctor.getGender();
+                        profileImage = doctor.getProfileImage();
+
+                        userNameTv.setText(firstName + " " + lastName);
+                        birthdayTv.setText(birthday);
+                        genderTv.setText(gender);
+                        if (!TextUtils.isEmpty(profileImage)){
+                            Picasso.get().load(profileImage).into(profileImageView);
                         }
 
                     }else {
@@ -137,9 +161,9 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         });
     }
 
-    public void getAskedQuestions(){
+    private void getAskedQuestions(){
         DatabaseReference reference = firebaseDatabase.getReference("Questions");
-        final Query query = reference.orderByChild("Date").limitToLast(5);
+        final Query query = reference.orderByChild("date").limitToLast(5);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -147,12 +171,14 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
                     questions.clear();
                     for (DataSnapshot ds : dataSnapshot.getChildren()){
 
-                        if (ds.child("ID").getValue(String.class).equals(firebaseAuth.getUid())){
+
+
+                        if (ds.child("id").getValue(String.class).equals(firebaseAuth.getUid())){
                             Questions question = new Questions();
-                            String Disease = ds.child("Disease").getValue(String.class);
-                            String Image = ds.child("Image").getValue(String.class);
-                            String Question = ds.child("Question").getValue(String.class);
-                            String UserName = ds.child("UserName").getValue(String.class);
+                            String Disease = ds.child("disease").getValue(String.class);
+                            String Image = ds.child("image").getValue(String.class);
+                            String Question = ds.child("question").getValue(String.class);
+                            String UserName = ds.child("userName").getValue(String.class);
                             String profileImage = ds.child("profileImage").getValue(String.class);
                             question.setDisease(Disease);
                             question.setImage(Image);
@@ -163,7 +189,9 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
                             adapter.notifyDataSetChanged();
                         }
+
                     }
+
 
                 }
             }
@@ -205,13 +233,13 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
                             for (DataSnapshot ds : dataSnapshot.getChildren()){
 
-                                if (ds.child("Disease").getValue(String.class)
+                                if (ds.child("disease").getValue(String.class)
                                 .equals(questions.get(position).getDisease())
-                                && ds.child("Question").getValue(String.class)
+                                && ds.child("question").getValue(String.class)
                                 .equals(questions.get(position).getQuestion()) &&
-                                ds.child("Image").getValue(String.class)
+                                ds.child("image").getValue(String.class)
                                 .equals(questions.get(position).getImage())
-                                && ds.child("ID").getValue(String.class)
+                                && ds.child("id").getValue(String.class)
                                         .equals(firebaseAuth.getUid())){
                                     String key = ds.getKey();
                                     DatabaseReference databaseReference = firebaseDatabase.getReference("Questions").child(key);

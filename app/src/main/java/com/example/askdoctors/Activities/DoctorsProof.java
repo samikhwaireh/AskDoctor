@@ -250,9 +250,9 @@ public class DoctorsProof extends AppCompatActivity {
                                  final HashMap<String, String> userInfo;
                                  userInfo = (HashMap<String, String>)intent.getSerializableExtra("map");
                                  assert userInfo != null;
-                                 userInfo.put("Diploma", uri.toString());
-                                 userInfo.put("University", university);
-                                 userInfo.put("Graduate", graduate);
+                                 userInfo.put("diploma", uri.toString());
+                                 userInfo.put("university", university);
+                                 userInfo.put("graduate", graduate);
                                  userInfo.put("profileImage", null);
 
                                  DatabaseReference databaseReference = firebaseDatabase.getReference("Doctors")
@@ -335,7 +335,7 @@ public class DoctorsProof extends AppCompatActivity {
     }
 
     //klavyeyi kapatan fonksiyon
-    public void closeKeyboard(){
+    private void closeKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

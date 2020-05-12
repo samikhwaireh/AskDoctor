@@ -66,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:text="Birthday :"
+                    android:layout_alignParentLeft="true"
                     android:layout_below="@id/profile_userNameTv"
                     android:layout_marginLeft="10dp"
                     android:textStyle="bold"
@@ -77,6 +78,7 @@
                     android:layout_below="@id/profile_birthdayTv"
                     android:layout_marginTop="10dp"
                     android:text="Gender :"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginLeft="10dp"
                     android:textStyle="bold"
                     android:textSize="18sp"
@@ -111,7 +113,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/bckgrnd"
-                    android:id="@+id/profile_Rv"/>
+                    android:id="@+id/profile_Rv"
+                    android:layout_marginTop="10dp"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

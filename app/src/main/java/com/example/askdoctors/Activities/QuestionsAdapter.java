@@ -1,6 +1,7 @@
 package com.example.askdoctors.Activities;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,17 +62,15 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
                holder.questionImageView.setVisibility(View.GONE);
            }else {
                Picasso.get().load(questions.get(position).getImage()).into(holder.questionImageView);
-               System.out.println(5);
            }
 
-           Picasso.get().load(questions.get(position).getProfileImage()).into(holder.userImageView);
-           System.out.println(1);
+            if (!TextUtils.isEmpty(questions.get(position).getProfileImage()))
+                Picasso.get().load(questions.get(position).getProfileImage()).into(holder.userImageView);
+
            holder.questionTv.setText(questions.get(position).getQuestion());
-           System.out.println(2);
            holder.diseaseTv.setText(questions.get(position).getDisease());
-           System.out.println(3);
            holder.userNameTv.setText(questions.get(position).getUserName());
-           System.out.println(4);
+
        }
 
     }

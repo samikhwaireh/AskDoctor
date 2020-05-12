@@ -1,38 +1,11 @@
 package com.example.askdoctors.Activities;
 
 public class Questions {
-    String Question;
-    String Disease;
-    String Image;
-    String profileImage;
-    String UserName;
+    String question,disease, image, profileImage,userName;
 
     public Questions(){
     }
 
-    public String getQuestion() {
-        return Question;
-    }
-
-    public void setQuestion(String question) {
-        Question = question;
-    }
-
-    public String getDisease() {
-        return Disease;
-    }
-
-    public void setDisease(String disease) {
-        Disease = disease;
-    }
-
-    public String getImage() {
-        return Image;
-    }
-
-    public void setImage(String image) {
-        Image = image;
-    }
 
     public String getProfileImage() {
         return profileImage;
@@ -42,11 +15,35 @@ public class Questions {
         this.profileImage = profileImage;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 }
