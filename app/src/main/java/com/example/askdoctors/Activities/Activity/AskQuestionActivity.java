@@ -42,6 +42,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import es.dmoral.toasty.Toasty;
@@ -291,7 +292,7 @@ public class AskQuestionActivity extends AppCompatActivity {
                 }
 
             }catch (Exception e){
-                Toasty.error(AskQuestionActivity.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
+                Toasty.error(AskQuestionActivity.this, Objects.requireNonNull(e.getLocalizedMessage()), Toasty.LENGTH_LONG).show();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -103,12 +103,14 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
                         Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
                     }
                 });
+
+                // check if current usr had ever chatted before
                 firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         ChatList chatList = dataSnapshot.getValue(ChatList.class);
                         assert chatList != null;
-                        if (dataSnapshot.exists()){
+                        if (dataSnapshot.exists() && chatList.getReceiver().equals(userId)){
                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                             intent.putExtra("userId", userId);
                             intent.putExtra("accType", accType);
@@ -119,11 +121,11 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
                             alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    HashMap<String, String> hashMap = new HashMap<>();
                                     hashMap.put("receiver", userId);
                                     firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).setValue(hashMap);
 
-                                    HashMap<String, Object> map = new HashMap<>();
+                                    HashMap<String, String> map = new HashMap<>();
                                     map.put("receiver", firebaseUser.getUid());
                                     firebaseDatabase.getReference("ChatList").child(userId).setValue(map);
 
@@ -146,26 +148,6 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
                         Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
                     }
                 });
-//                final AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
-//                alert.setTitle("New Conversation").setMessage("You are about to start a new conversation with " + firstName[0] + " " + lastName[0]);
-//                alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        HashMap<String, Object> hashMap = new HashMap<>();
-//                        hashMap.put("receiver", userId);
-//                        firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).setValue(hashMap);
-//
-//                        HashMap<String, Object> map = new HashMap<>();
-//                        map.put("receiver", firebaseUser.getUid());
-//                        firebaseDatabase.getReference("ChatList").child(userId).setValue(map);
-//                    }
-//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                });
-//                alert.show();
             }
         });
 
