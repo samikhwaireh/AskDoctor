@@ -134,6 +134,7 @@ public class AskQuestionActivity extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
 
                                 Map<String, Object> QuestionDetails = new HashMap<>();
+                                QuestionDetails.put("userId", firebaseAuth.getUid());
                                 QuestionDetails.put("question", question);
                                 QuestionDetails.put("disease", disease);
                                 QuestionDetails.put("image", uri.toString());
@@ -197,6 +198,7 @@ public class AskQuestionActivity extends AppCompatActivity {
                 UUID uuid = UUID.randomUUID();
                 DatabaseReference reference = firebaseDatabase.getReference("Questions").child(uuid.toString());
                 Map<String, Object> QuestionDetails = new HashMap<>();
+                QuestionDetails.put("userId", firebaseAuth.getUid());
                 QuestionDetails.put("question", question);
                 QuestionDetails.put("disease", disease);
                 QuestionDetails.put("image", "noImage");

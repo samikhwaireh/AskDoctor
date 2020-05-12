@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,22 +14,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.askdoctors.Activities.Activity.ProfileActivity;
-import com.example.askdoctors.Activities.Fragment.ProfileFragment;
 import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.questionsHolder> {
 
-    private ArrayList<Questions> questions;
+    final private List<Questions> questions;
     private onQuestionClicked questionClicked;
     private Context mContext;
 
     public QuestionsAdapter(ArrayList<Questions> questions, onQuestionClicked questionClicked, Context mContext) {
         this.questions = questions;
-        this.questionClicked = (onQuestionClicked) questionClicked;
+        this.questionClicked = questionClicked;
         this.mContext = mContext;
     }
 
@@ -37,7 +37,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
     @Override
     public questionsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = LayoutInflater.from(mContext).inflate(R.layout.qusetion_row_adapter, parent, false);
+        ViewGroup view = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.qusetion_row_adapter, parent, false);
 
         return new questionsHolder(view, questionClicked);
     }
@@ -77,22 +77,21 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
                 holder.userImageView.setImageResource(R.mipmap.ic_launcher);
             }
 
-            holder.userImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ProfileActivity.class);
-                    intent.putExtra("accType", "User");
-                    intent.putExtra("userId", questions.get(position).getId());
-                    mContext.startActivity(intent);
-                }
-            });
 
            holder.questionTv.setText(questions.get(position).getQuestion());
            holder.diseaseTv.setText(questions.get(position).getDisease());
            holder.userNameTv.setText(questions.get(position).getUserName());
 
+//           holder.userImageView.setOnClickListener(new View.OnClickListener() {
+//               @Override
+//               public void onClick(View v) {
+//                   Intent intent = new Intent(mContext, ProfileActivity.class);
+//                   intent.putExtra("accType", "Users");
+//                   intent.putExtra("userId", questions.get(position).getDisease());
+//                   mContext.startActivity(intent);
+//               }
+//           });
        }
-
     }
 
     @Override
@@ -130,14 +129,16 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
                     return true;
                 }
             });
+
+            userImageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (view == questionClicked){
+            if (view == answerBtn){
                 questionClicked.answer(getLayoutPosition());
-            } else {
-
+            } else if (view == userImageView){
+                questionClicked.openProfile(getLayoutPosition());
             }
         }
     }
@@ -145,5 +146,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
     public interface onQuestionClicked{
         void answer(int position);
         void deleteQuestion(int position);
+        void openProfile(int position);
     }
 }

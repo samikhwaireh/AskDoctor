@@ -16,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.askdoctors.Activities.Activity.AnswerActivity;
 import com.example.askdoctors.Activities.Activity.AskQuestionActivity;
+import com.example.askdoctors.Activities.Activity.ProfileActivity;
 import com.example.askdoctors.Activities.Model.Questions;
-import com.example.askdoctors.Activities.QuestionsAdapter;
+import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
 import com.example.askdoctors.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -137,5 +138,13 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
     @Override
     public void deleteQuestion(int position) {
         return;
+    }
+
+    @Override
+    public void openProfile(int position) {
+        Intent intent = new Intent(getContext(), ProfileActivity.class);
+        intent.putExtra("accType", "Users");
+        intent.putExtra("userId", questions.get(position).getId());
+        startActivity(intent);
     }
 }

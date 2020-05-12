@@ -12,14 +12,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.Activities.Model.User;
-import com.example.askdoctors.Activities.QuestionsAdapter;
+import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements QuestionsAdapter.onQuestionClicked {
 
     private TextView birthdayTv,genderTv,userNameTv ;
     private ImageView profileImageView;
@@ -93,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
             doctorOrUserTv.setText("User");
         }
 
-        adapter = new QuestionsAdapter(questions, (QuestionsAdapter.onQuestionClicked) this, getApplication());
+        adapter = new QuestionsAdapter(questions,  this, getApplication());
         profileRv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         profileRv.setNestedScrollingEnabled(false);
         profileRv.setAdapter(adapter);
@@ -156,6 +155,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+
     private  void getProfileInfo(){
         DatabaseReference reference = firebaseDatabase.getReference(accType).child(userId);
         reference.addValueEventListener(new ValueEventListener() {
@@ -200,6 +200,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
     public void deleteQuestion(final int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
         alert.setTitle("Delete Question");
@@ -258,5 +259,18 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         alert.show();
+    }
+
+    @Override
+    public void openProfile(int position) {
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        intent.putExtra("accType", "Users");
+        intent.putExtra("userId", questions.get(position).getId());
+        getApplication().startActivity(intent);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

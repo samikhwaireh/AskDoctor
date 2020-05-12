@@ -19,13 +19,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.askdoctors.Activities.Activity.ProfileActivity;
 import com.example.askdoctors.Activities.Activity.UpdateProfileActivity;
 import com.example.askdoctors.Activities.Activity.AnswerActivity;
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.Activities.Activity.LoginActivity;
 import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.Activities.Model.User;
-import com.example.askdoctors.Activities.QuestionsAdapter;
+import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -284,5 +285,13 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
             }
         });
         alert.show();
+    }
+
+    @Override
+    public void openProfile(int position) {
+        Intent intent = new Intent(getContext(), ProfileActivity.class);
+        intent.putExtra("accType", "Users");
+        intent.putExtra("userId", questions.get(position).getId());
+        startActivity(intent);
     }
 }
