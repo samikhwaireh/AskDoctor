@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.askdoctors.Activities.Model.ChatList;
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.Activities.Model.User;
@@ -23,6 +24,7 @@ import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import es.dmoral.toasty.Toasty;
 
@@ -40,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
     private TextView birthdayTv,genderTv,userNameTv ;
     private ImageView profileImageView;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
 
     Doctors doctor;
@@ -67,12 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
             }
         });
         ImageView messages = findViewById(R.id.message);
-        messages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         profileImageView = findViewById(R.id.profile_ImageView);
         RecyclerView profileRv = findViewById(R.id.profile_Rv);
         TextView doctorOrUserTv = findViewById(R.id.profile_doctorOrUserTv);
@@ -80,11 +79,95 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
         questions = new ArrayList<>();
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         Intent intent = getIntent();
         accType = intent.getStringExtra("accType");
         userId  = intent.getStringExtra("userId");
+
+        messages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] firstName = new String[1];
+                final String[] lastName = new String[1];
+                firebaseDatabase.getReference(accType).child(userId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Doctors doctors = dataSnapshot.getValue(Doctors.class);
+                        firstName[0] = doctor.getFirstName().toString();
+                        lastName[0] = doctor.getLastName().toString();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+                    }
+                });
+                firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ChatList chatList = dataSnapshot.getValue(ChatList.class);
+                        assert chatList != null;
+                        if (dataSnapshot.exists()){
+                            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                            intent.putExtra("userId", userId);
+                            intent.putExtra("accType", accType);
+                            startActivity(intent);
+                        } else if (!dataSnapshot.exists()){
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
+                            alert.setTitle("New Conversation").setMessage("You are about to start a new conversation with " + firstName[0] + " " + lastName[0]);
+                            alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("receiver", userId);
+                                    firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).setValue(hashMap);
+
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("receiver", firebaseUser.getUid());
+                                    firebaseDatabase.getReference("ChatList").child(userId).setValue(map);
+
+                                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                    intent.putExtra("userId", userId);
+                                    intent.putExtra("accType", accType);
+                                    startActivity(intent);
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            alert.show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+                    }
+                });
+//                final AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
+//                alert.setTitle("New Conversation").setMessage("You are about to start a new conversation with " + firstName[0] + " " + lastName[0]);
+//                alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        HashMap<String, Object> hashMap = new HashMap<>();
+//                        hashMap.put("receiver", userId);
+//                        firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).setValue(hashMap);
+//
+//                        HashMap<String, Object> map = new HashMap<>();
+//                        map.put("receiver", firebaseUser.getUid());
+//                        firebaseDatabase.getReference("ChatList").child(userId).setValue(map);
+//                    }
+//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//                alert.show();
+            }
+        });
 
         if (accType.equals("Doctors")){
             doctorOrUserTv.setText("Doctor");
@@ -241,7 +324,6 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
 
                                 }
                             }
-
                         }
                     }
 

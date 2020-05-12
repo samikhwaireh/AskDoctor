@@ -29,8 +29,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     private String imageurl;
 
-    private FirebaseUser firebaseUser;
-
     public MessagesAdapter(Context mContext, List<Message> mMessage, String imageurl) {
         this.mContext = mContext;
         this.mMessage = mMessage;
@@ -95,7 +93,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         if (mMessage.get(position).getSender().equals(firebaseUser.getUid())) {
             return MSG_RIGHT;
         } else {
