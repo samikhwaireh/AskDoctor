@@ -36,7 +36,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     @Override
     public ProfileAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
-        return new ProfileAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
@@ -52,7 +52,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         }
 
         if (isChat){
-            if (doctors.getStatus().equals("online")){
+            if (doctors.getOnline().equals("online")){
                 holder.on_img.setVisibility(View.VISIBLE);
                 holder.off_img.setVisibility(View.GONE);
             }
@@ -80,14 +80,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         return mDoctors.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView profile_image;
+        ImageView profile_image;
         public TextView username;
         private ImageView on_img, off_img;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username_browse);
