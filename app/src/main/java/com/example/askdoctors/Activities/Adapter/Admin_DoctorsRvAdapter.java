@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.R;
 import com.squareup.picasso.Picasso;
 
@@ -44,8 +45,6 @@ public class Admin_DoctorsRvAdapter extends RecyclerView.Adapter<Admin_DoctorsRv
         }else {
             holder.confirmBtn.setText("Confirm");
         }
-
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
+import com.example.askdoctors.Activities.Activity.AnswerActivity;
+import com.example.askdoctors.Activities.Model.Doctors;
+import com.example.askdoctors.Activities.Activity.LoginActivity;
+import com.example.askdoctors.Activities.Model.Questions;
+import com.example.askdoctors.Activities.Model.User;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,9 +42,9 @@ import es.dmoral.toasty.Toasty;
 
 public class ProfileFragment extends Fragment implements QuestionsAdapter.onQuestionClicked {
 
-    TextView birthdayTv,genderTv,userNameTv,logouBtn,doctorOrUserTv;
+    TextView birthdayTv,genderTv,userNameTv ,doctorOrUserTv;
     Button updateBtn;
-    ImageView profileImageView;
+    ImageView profileImageView, logouBtn;
     RecyclerView profileRv;
 
     private FirebaseAuth firebaseAuth;

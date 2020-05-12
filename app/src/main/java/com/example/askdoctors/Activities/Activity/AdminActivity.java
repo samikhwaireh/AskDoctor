@@ -1,4 +1,4 @@
-package com.example.askdoctors.Activities;
+package com.example.askdoctors.Activities.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -10,44 +10,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.askdoctors.Activities.Fragment.Admin_AdminsFragment;
+import com.example.askdoctors.Activities.Fragment.Admin_DoctorsFragment;
 import com.example.askdoctors.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity {
-
-    private FirebaseAuth firebaseAuth;
-
+public class AdminActivity extends AppCompatActivity {
+    BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_admin);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        bottomNavigation = findViewById(R.id.Admin_nav);
 
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
+        getSupportFragmentManager().beginTransaction().replace(R.id.admins_container, new Admin_DoctorsFragment()).commit();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.FragmentContainer, new HomeFragment()).commit();
-
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
                 switch (item.getItemId()){
-                    case R.id.home_nav:
-                        fragment = new HomeFragment();
+                    case R.id.doctors_nav:
+                        fragment = new Admin_DoctorsFragment();
                         break;
-                    case R.id.search_nav:
-                        fragment = new SearchFragment();
-                        break;
-                    case R.id.messages_nav:
-                        fragment = new MessagesFragment();
-                        break;
-                    case R.id.profile_nav:
-                        fragment = new ProfileFragment();
+                    case R.id.admins_nav:
+                        fragment = new Admin_AdminsFragment();
                         break;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.FragmentContainer, fragment).commit();
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.admins_container, fragment).commit();
                 return true;
             }
         });
@@ -61,15 +54,15 @@ public class HomeActivity extends AppCompatActivity {
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                firebaseAuth.signOut();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(AdminActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               dialog.cancel();
+                dialog.cancel();
             }
         });
         alert.show();
