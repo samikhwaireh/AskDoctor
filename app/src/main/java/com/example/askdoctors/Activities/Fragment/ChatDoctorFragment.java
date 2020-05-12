@@ -36,9 +36,9 @@ public class ChatDoctorFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference reference, databaseReference, reference1;
+    private DatabaseReference reference, databaseReference;
 
-    private ProfileAdapter profileAdapter;
+    private DoctorChatListAdapter doctorChatListAdapter;
     private List<Doctors> mDoctors;
 
     private List<ChatList> chatListList;
@@ -67,22 +67,19 @@ public class ChatDoctorFragment extends Fragment {
 
     private void getDoctorChatList(){
         databaseReference = firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     chatListList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        //ChatList chatList = snapshot.getValue(ChatList.class);
-                        String receiver = snapshot.child("receiver").toString();
-                        ChatList chatList = new ChatList(receiver);
+                        ChatList chatList = snapshot.getValue(ChatList.class);
                         chatListList.add(chatList);
                     }
-//                    getDoctorInfo();
+                    getDoctorInfo();
                 } else if (!dataSnapshot.exists()){
                     Toast.makeText(getContext(), "You don't have any chat room", Toast.LENGTH_LONG).show();
                 }
-                getDoctorInfo();
             }
 
             @Override
@@ -107,8 +104,8 @@ public class ChatDoctorFragment extends Fragment {
                         }
                     }
                 }
-                profileAdapter = new ProfileAdapter(getContext(), mDoctors, false);
-                recyclerView.setAdapter(profileAdapter);
+                doctorChatListAdapter = new DoctorChatListAdapter(getContext(), mDoctors, false);
+                recyclerView.setAdapter(doctorChatListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

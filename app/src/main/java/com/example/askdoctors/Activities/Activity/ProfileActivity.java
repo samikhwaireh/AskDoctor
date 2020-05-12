@@ -89,67 +89,79 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
         messages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] firstName = new String[1];
-                final String[] lastName = new String[1];
-                firebaseDatabase.getReference(accType).child(userId).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Doctors doctors = dataSnapshot.getValue(Doctors.class);
-                        firstName[0] = doctor.getFirstName().toString();
-                        lastName[0] = doctor.getLastName().toString();
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
-                    }
-                });
-
-                // check if current usr had ever chatted before
-                firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        ChatList chatList = dataSnapshot.getValue(ChatList.class);
-                        assert chatList != null;
-                        if (dataSnapshot.exists() && chatList.getReceiver().equals(userId)){
-                            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                            intent.putExtra("userId", userId);
-                            intent.putExtra("accType", accType);
-                            startActivity(intent);
-                        } else if (!dataSnapshot.exists()){
-                            final AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
-                            alert.setTitle("New Conversation").setMessage("You are about to start a new conversation with " + firstName[0] + " " + lastName[0]);
-                            alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    HashMap<String, String> hashMap = new HashMap<>();
-                                    hashMap.put("receiver", userId);
-                                    firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).setValue(hashMap);
-
-                                    HashMap<String, String> map = new HashMap<>();
-                                    map.put("receiver", firebaseUser.getUid());
-                                    firebaseDatabase.getReference("ChatList").child(userId).setValue(map);
-
-                                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                                    intent.putExtra("userId", userId);
-                                    intent.putExtra("accType", accType);
-                                    startActivity(intent);
-                                }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-                            alert.show();
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
-                    }
-                });
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("accType", accType);
+                startActivity(intent);
             }
         });
+
+//        messages.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final String[] firstName = new String[1];
+//                final String[] lastName = new String[1];
+//                firebaseDatabase.getReference(accType).child(userId).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        Doctors doctors = dataSnapshot.getValue(Doctors.class);
+//                        firstName[0] = doctor.getFirstName().toString();
+//                        lastName[0] = doctor.getLastName().toString();
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+//                    }
+//                });
+//
+//                // check if current usr had ever chatted before with this doctor
+//                firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                            ChatList chatList = snapshot.getValue(ChatList.class);
+//                            assert chatList != null;
+//                            if (dataSnapshot.exists() && chatList.getReceiver().equals(userId)){
+//                                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+//                                intent.putExtra("userId", userId);
+//                                intent.putExtra("accType", accType);
+//                                startActivity(intent);
+//                            } else if (dataSnapshot.exists() && !chatList.getReceiver().equals(userId) || !dataSnapshot.exists()) {
+//                                final AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
+//                                alert.setTitle("New Conversation").setMessage("You are about to start a new conversation with " + firstName[0] + " " + lastName[0]);
+//                                alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        HashMap<String, String> hashMap = new HashMap<>();
+//                                        hashMap.put("receiver", userId);
+//                                        firebaseDatabase.getReference("ChatList").child(firebaseUser.getUid()).push().setValue(hashMap);
+//
+//                                        HashMap<String, String> map = new HashMap<>();
+//                                        map.put("receiver", firebaseUser.getUid());
+//                                        firebaseDatabase.getReference("ChatList").child(userId).push().setValue(map);
+//
+//                                        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+//                                        intent.putExtra("userId", userId);
+//                                        intent.putExtra("accType", accType);
+//                                        startActivity(intent);
+//                                    }
+//                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//
+//                                    }
+//                                });
+//                                alert.show();
+//                            }
+//                        }
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+//                    }
+//                });
+//            }
+//        });
 
         if (accType.equals("Doctors")){
             doctorOrUserTv.setText("Doctor");

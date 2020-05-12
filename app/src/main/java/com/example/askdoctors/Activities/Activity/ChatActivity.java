@@ -33,11 +33,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private ImageView profile_image_;
+    private CircleImageView profile_image_;
     private EditText message_text;
     private TextView name;
     private RecyclerView recyclerView;
@@ -63,6 +64,13 @@ public class ChatActivity extends AppCompatActivity {
         ImageView back_arrow = findViewById(R.id.back_message);
         ImageView send = findViewById(R.id.send_message_btn);
         message_text = findViewById(R.id.message_Text);
+
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         recyclerView = findViewById(R.id.recycle_chat);
         recyclerView.setHasFixedSize(true);
@@ -121,7 +129,7 @@ public class ChatActivity extends AppCompatActivity {
                     name.setText(user.getFirstName() + " " + user.getLastName());
                     if (!TextUtils.isEmpty(user.getProfileImage())){
                         Picasso.get().load(user.getProfileImage()).into(profile_image_);
-                        imageUrl = user.getProfileImage().toString();
+                        imageUrl = user.getProfileImage();
                     } else {
                         profile_image_.setImageResource(R.mipmap.ic_launcher);
                     }
@@ -172,21 +180,21 @@ public class ChatActivity extends AppCompatActivity {
 
         reference.child("Messages").push().setValue(map);
 
-//        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("Chatlist")
-//                .child(firebaseUser.getUid())
-//                .child(userId);
-//        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (!dataSnapshot.exists()){
-//                    chatref.child("id").setValue(userId);
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
-//            }
-//        });
+        final DatabaseReference chatref = FirebaseDatabase.getInstance().getReference("ChatList")
+                .child(firebaseUser.getUid())
+                .child(userId);
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    chatref.child("receiver").setValue(userId);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toasty.error(getApplicationContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void seenMessage(){

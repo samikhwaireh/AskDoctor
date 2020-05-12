@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.askdoctors.Activities.Activity.ChatActivity;
 import com.example.askdoctors.Activities.Activity.ProfileActivity;
+import com.example.askdoctors.Activities.Model.ChatList;
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.R;
 import com.squareup.picasso.Picasso;
@@ -70,9 +71,9 @@ public class DoctorChatListAdapter extends RecyclerView.Adapter<DoctorChatListAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ChatActivity.class);
-                intent.putExtra("userId", doctors.getId());
-                intent.putExtra("accType", doctors.getAccType());
+                Intent intent = new Intent(mContext , ChatActivity.class);
+                intent.putExtra("accType", "Doctors");
+                intent.putExtra("userId" , doctors.getId());
                 mContext.startActivity(intent);
             }
         });

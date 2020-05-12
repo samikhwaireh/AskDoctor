@@ -2,6 +2,7 @@ package com.example.askdoctors.Activities.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.askdoctors.Activities.Model.Message;
 import com.example.askdoctors.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,11 +55,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         Message message = mMessage.get(position);
         holder.message_text.setText(message.getMessage());
 
-        if (imageurl.equals("default")) {
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+        if (!TextUtils.isEmpty(imageurl)){
+            Picasso.get().load(imageurl).into(holder.profile_image);
         } else {
-            Glide.with(mContext).load(imageurl).into(holder.profile_image);
+            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         }
+
+//        if (imageurl.equals(null)) {
+//            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+//        } else {
+//            Glide.with(mContext).load(imageurl).into(holder.profile_image);
+//        }
 
         //get last message
         if (position == mMessage.size() - 1) {
@@ -94,7 +102,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public int getItemViewType(int position) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
         if (mMessage.get(position).getSender().equals(firebaseUser.getUid())) {
             return MSG_RIGHT;
         } else {
