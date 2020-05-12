@@ -147,6 +147,7 @@ public class SignUpActivity extends AppCompatActivity {
                         hashMap.put("id", firebaseUser.getUid());
                         hashMap.put("firstName", firstName);
                         hashMap.put("lastName", lastName);
+                        hashMap.put("search", firstName + lastName);
                         hashMap.put("gender", gender);
                         hashMap.put("birthday", birthday);
                         hashMap.put("email", Email);
