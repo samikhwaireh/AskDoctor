@@ -92,7 +92,8 @@
                     android:drawableRight="@drawable/ic_send_black_24dp"
                     android:drawablePadding="5dp"
                     android:paddingBottom="15dp"
-                    android:paddingRight="15dp"/>
+                    android:paddingRight="15dp"
+                    android:onClick="answer"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

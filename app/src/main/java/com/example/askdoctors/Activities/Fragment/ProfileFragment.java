@@ -1,6 +1,5 @@
 package com.example.askdoctors.Activities.Fragment;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,14 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.askdoctors.Activities.Activity.ProfileActivity;
 import com.example.askdoctors.Activities.Activity.UpdateProfileActivity;
+import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
 import com.example.askdoctors.Activities.Activity.AnswerActivity;
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.Activities.Activity.LoginActivity;
 import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.Activities.Model.User;
-import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,9 +44,9 @@ import es.dmoral.toasty.Toasty;
 public class ProfileFragment extends Fragment implements QuestionsAdapter.onQuestionClicked {
 
     private TextView birthdayTv,genderTv,userNameTv ,doctorOrUserTv;
-    private Button updateBtn;
-    private ImageView profileImageView, logouBtn;
-    private RecyclerView profileRv;
+    Button updateBtn;
+    ImageView profileImageView, logouBtn;
+    RecyclerView profileRv;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -62,7 +60,6 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
     String firstName,lastName,birthday,gender,profileImage;
 
-    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,7 +79,6 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         firebaseDatabase = FirebaseDatabase.getInstance();
         accType = getActivity().getIntent().getStringExtra("user");
 
-        assert accType != null;
         if (accType.equals("Doctors")){
             doctorOrUserTv.setText("Doctor");
         }else {
@@ -120,7 +116,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
             }
         });
 
-        adapter = new QuestionsAdapter(questions,this, getContext());
+        adapter = new QuestionsAdapter(questions,this,getContext());
         profileRv.setLayoutManager(new LinearLayoutManager(getContext()));
         profileRv.setNestedScrollingEnabled(false);
         profileRv.setAdapter(adapter);
@@ -175,36 +171,53 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
     private void getAskedQuestions(){
         DatabaseReference reference = firebaseDatabase.getReference("Questions");
         final Query query = reference.orderByChild("date").limitToLast(5);
-        query.addValueEventListener(new ValueEventListener() {
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference(accType).child(firebaseAuth.getUid()).child("profileImage");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    questions.clear();
-                    for (DataSnapshot ds : dataSnapshot.getChildren()){
+
+                final String profileImage = dataSnapshot.getValue(String.class);
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            questions.clear();
+                            for (DataSnapshot ds : dataSnapshot.getChildren()){
 
 
 
-                        if (ds.child("id").getValue(String.class).equals(firebaseAuth.getUid())){
-                            Questions question = new Questions();
-                            String Disease = ds.child("disease").getValue(String.class);
-                            String Image = ds.child("image").getValue(String.class);
-                            String Question = ds.child("question").getValue(String.class);
-                            String UserName = ds.child("userName").getValue(String.class);
-                            String profileImage = ds.child("profileImage").getValue(String.class);
-                            question.setDisease(Disease);
-                            question.setImage(Image);
-                            question.setProfileImage(profileImage);
-                            question.setUserName(UserName);
-                            question.setQuestion(Question);
-                            questions.add(question);
+                                if (ds.child("id").getValue(String.class).equals(firebaseAuth.getUid())){
+                                    Questions question = new Questions();
+                                    String Disease = ds.child("disease").getValue(String.class);
+                                    String Image = ds.child("image").getValue(String.class);
+                                    String Question = ds.child("question").getValue(String.class);
+                                    String UserName = ds.child("userName").getValue(String.class);
 
-                            adapter.notifyDataSetChanged();
+                                    question.setDisease(Disease);
+                                    question.setImage(Image);
+                                    question.setProfileImage(profileImage);
+                                    question.setUserName(UserName);
+                                    question.setQuestion(Question);
+                                    questions.add(question);
+
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                            }
+
+
                         }
-
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toasty.error(getContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
+                    }
+                });
 
-                }
+
             }
 
             @Override
@@ -212,6 +225,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
                 Toasty.error(getContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
             }
         });
+
     }
 
     @Override
@@ -289,9 +303,6 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
     @Override
     public void openProfile(int position) {
-        Intent intent = new Intent(getContext(), ProfileActivity.class);
-        intent.putExtra("accType", "Users");
-        intent.putExtra("userId", questions.get(position).getId());
-        startActivity(intent);
+
     }
 }

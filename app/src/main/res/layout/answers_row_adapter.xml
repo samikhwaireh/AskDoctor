@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_person_black_24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:civ_border_overlay="true"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorAccent"
+        android:id="@+id/answeradapter_userImageView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@id/answeradapter_userImageView"
+        android:text="user"
+        android:textStyle="bold"
+        android:id="@+id/answeradapter_userNameTv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answeradapter_userNameTv"
+        android:layout_alignLeft="@id/answeradapter_userNameTv"
+        android:text="comment"
+        android:layout_marginTop="5dp"
+        android:id="@+id/answeradapter_commentTv"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000"
+        android:layout_toRightOf="@id/answeradapter_userImageView"
+        android:layout_below="@id/answeradapter_userImageView"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

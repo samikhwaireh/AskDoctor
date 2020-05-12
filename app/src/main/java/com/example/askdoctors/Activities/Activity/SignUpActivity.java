@@ -15,6 +15,7 @@ import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,10 +28,14 @@ import android.widget.Toast;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -46,6 +51,8 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference customerReference;
 
+    EditText Email,Password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +63,17 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText firstName = findViewById(R.id.first_name);
         final EditText lastName = findViewById(R.id.last_name);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
 
         Button pick_birthday = findViewById(R.id.pick_btn);
         Button signUP_btn = findViewById(R.id.sign_up_btn);
 
         final RadioGroup genderGroup = findViewById(R.id.gender_radio);
 
-        final EditText Email = findViewById(R.id.email_input);
-        final EditText Password = findViewById(R.id.password_input);
+        Email = findViewById(R.id.email_input);
+        Password = findViewById(R.id.password_input);
 
         //on click on sign up button
         signUP_btn.setOnClickListener(new View.OnClickListener() {
@@ -129,22 +139,60 @@ public class SignUpActivity extends AppCompatActivity {
         dpd.show();
     }
 
+
     private void EmailAndPasswordAuthentication(final String Email, final String Password, final String firstName, final String lastName,
                                                 final String gender, final String birthday){
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(SignUpActivity.this);
+        alert.setTitle("Doctor or Patient");
+        alert.setMessage("Are you a doctor ?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onClick(DialogInterface dialog, int which) {
 
-                try {
-                    if (task.isSuccessful()){
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
 
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        firebaseDatabase = FirebaseDatabase.getInstance();
-                        customerReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid());
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("id", firebaseAuth.getUid());
+                        hashMap.put("firstName", firstName);
+                        hashMap.put("lastName", lastName);
+                        hashMap.put("search", firstName + lastName);
+                        hashMap.put("gender", gender);
+                        hashMap.put("birthday", birthday);
+                        hashMap.put("email", Email);
+                        hashMap.put("password", Password);
+                        hashMap.put("accType", "doctor");
+                        hashMap.put("status", "Waiting");
 
-                        final HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("id", firebaseUser.getUid());
+
+                        Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
+
+                        intent.putExtra("map", hashMap);
+                        startActivity(intent);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toasty.error(SignUpActivity.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.createUserWithEmailAndPassword(Email, Password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("id", firebaseAuth.getUid());
                         hashMap.put("firstName", firstName);
                         hashMap.put("lastName", lastName);
                         hashMap.put("search", firstName + lastName);
@@ -153,94 +201,40 @@ public class SignUpActivity extends AppCompatActivity {
                         hashMap.put("email", Email);
                         hashMap.put("password", Password);
 
-                        AlertDialog.Builder alert = new AlertDialog.Builder(SignUpActivity.this);
-                        alert.setTitle("Doctor or Patient");
-                        alert.setMessage("Are you a DOCTOR ?");
-                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        hashMap.put("accType", "customer");
+
+                        firebaseDatabase = FirebaseDatabase.getInstance();
+                        DatabaseReference reference = firebaseDatabase.getReference("Users").child(firebaseAuth.getUid());
+                        reference.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                DatabaseReference doctorReference = firebaseDatabase.getReference("Doctors")
-                                        .child(firebaseUser.getUid());
+                            public void onSuccess(Void aVoid) {
 
-                                hashMap.put("accType", "doctor");
-                                //hashMap.put("Diploma", null);
-                                //hashMap.put("University", null);
-                                //hashMap.put("Graduate", null);
-                                hashMap.put("status", "Waiting");
-
-                                Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
-                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("map", hashMap);
+                                Intent intent = new Intent(SignUpActivity.this, SetProfileInfo_Activity.class);
+                                intent.putExtra("accType", "Users");
+                                intent.putExtra("firstName", firstName);
+                                intent.putExtra("lastName", lastName);
+                                intent.putExtra("accType", "Users");
                                 startActivity(intent);
+                                finish();
 
-                                /*doctorReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Toasty.info(SignUpActivity.this ,
-                                                "One step remained...",
-                                                Toast.LENGTH_LONG).show();
-
-                                        Intent intent = new Intent(SignUpActivity.this, DoctorsProof.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
-
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toasty.error(SignUpActivity.this,
-                                                "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
-                                                , Toast.LENGTH_LONG).show();
-                                    }
-                                });*/
                             }
-                        });
-                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        }).addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                hashMap.put("accType", "customer");
-
-                                customerReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Intent intent = new Intent(SignUpActivity.this, SetProfileInfo_Activity.class);
-                                        intent.putExtra("accType", "Users");
-                                        intent.putExtra("firstName", firstName);
-                                        intent.putExtra("lastName", lastName);
-                                        intent.putExtra("accType", "Users");
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toasty.error(SignUpActivity.this,
-                                                "ERROR: "+ Objects.requireNonNull(e.getMessage()).toString()
-                                                , Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                            public void onFailure(@NonNull Exception e) {
+                                Toasty.error(SignUpActivity.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
                             }
                         });
-
-                        alert.show();
 
                     }
-                }
-                catch (Exception e){
-                    Toasty.error(SignUpActivity.this ,
-                            "ERROR: "+ e.getLocalizedMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toasty.error(SignUpActivity.this,
-                        "ERROR: "+ e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                });
+
             }
         });
+
+        alert.show();
+
+
+
     }
 
     private void signUp(EditText firstName, EditText lastName, TextView birthday,
