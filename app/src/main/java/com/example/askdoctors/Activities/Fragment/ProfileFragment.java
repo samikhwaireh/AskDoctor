@@ -1,5 +1,6 @@
 package com.example.askdoctors.Activities.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,12 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
+import com.example.askdoctors.Activities.Activity.UpdateProfileActivity;
 import com.example.askdoctors.Activities.Activity.AnswerActivity;
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.Activities.Activity.LoginActivity;
 import com.example.askdoctors.Activities.Model.Questions;
 import com.example.askdoctors.Activities.Model.User;
+import com.example.askdoctors.Activities.QuestionsAdapter;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,10 +44,10 @@ import es.dmoral.toasty.Toasty;
 
 public class ProfileFragment extends Fragment implements QuestionsAdapter.onQuestionClicked {
 
-    TextView birthdayTv,genderTv,userNameTv ,doctorOrUserTv;
-    Button updateBtn;
-    ImageView profileImageView, logouBtn;
-    RecyclerView profileRv;
+    private TextView birthdayTv,genderTv,userNameTv ,doctorOrUserTv;
+    private Button updateBtn;
+    private ImageView profileImageView, logouBtn;
+    private RecyclerView profileRv;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -59,6 +61,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
     String firstName,lastName,birthday,gender,profileImage;
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         firebaseDatabase = FirebaseDatabase.getInstance();
         accType = getActivity().getIntent().getStringExtra("user");
 
+        assert accType != null;
         if (accType.equals("Doctors")){
             doctorOrUserTv.setText("Doctor");
         }else {
@@ -115,7 +119,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
             }
         });
 
-        adapter = new QuestionsAdapter(questions,this);
+        adapter = new QuestionsAdapter(questions,this, getContext());
         profileRv.setLayoutManager(new LinearLayoutManager(getContext()));
         profileRv.setNestedScrollingEnabled(false);
         profileRv.setAdapter(adapter);

@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.askdoctors.Activities.Adapter.QuestionsAdapter;
 import com.example.askdoctors.Activities.Activity.AnswerActivity;
 import com.example.askdoctors.Activities.Activity.AskQuestionActivity;
 import com.example.askdoctors.Activities.Model.Questions;
+import com.example.askdoctors.Activities.QuestionsAdapter;
 import com.example.askdoctors.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
 
 
         getQuestions();
-        adapter = new QuestionsAdapter(questions,this);
+        adapter = new QuestionsAdapter(questions,this, getContext());
         homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRv.setAdapter(adapter);
 

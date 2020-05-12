@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/update_btn">
+
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_person_black_24dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/questionAdapter_userImage"/>
     <TextView
         android:layout_width="wrap_content"
@@ -16,20 +20,14 @@
         android:textStyle="bold"
         android:layout_below="@id/questionAdapter_userImage"
         android:text="Disease :"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/disease"/>
 
     <TextView
         android:id="@+id/questionAdapter_diseaseTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/disease"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="0dp"
+        android:layout_below="@id/questionAdapter_userImage"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/disease"
         android:text="disease" />
     <TextView
@@ -38,9 +36,6 @@
         android:text="Question :"
         android:textStyle="bold"
         android:layout_below="@id/disease"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/qu"/>
 
     <TextView
@@ -48,9 +43,8 @@
         android:layout_height="wrap_content"
         android:text="question"
         android:layout_toEndOf="@id/qu"
-        android:layout_alignBottom="@id/qu"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/disease"
         android:id="@+id/questionAdapter_QuestionTv"/>
 
     <TextView
@@ -64,37 +58,20 @@
         android:textStyle="bold"
         android:id="@+id/questionAdapter_userNameTv"/>
     <ImageView
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:src="@drawable/update_btn"
         android:layout_below="@id/questionAdapter_QuestionTv"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
         android:id="@+id/questionAdapter_questionImage"/>
 
     <Button
-        android:layout_width="155dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/questionAdapter_questionImage"
-        android:background="@drawable/btn_icon"
-        android:layout_centerHorizontal="true"
-        android:paddingRight="15dp"
-        android:paddingBottom="15dp"
-        android:layout_marginTop="10dp"
-        android:text="Answer"
-        android:id="@+id/questionAdapter_answerBtn"
-        android:drawableLeft="@drawable/ic_question_answer_black_24dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/questionAdapter_answerBtn"
-        android:layout_alignStart="@+id/questionAdapter_answerBtn"
-        android:layout_alignEnd="@+id/questionAdapter_answerBtn"
-        android:layout_toRightOf="@id/questionAdapter_answerBtn"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="-30dp"
-        android:layout_marginLeft="-30dp"
-        android:background="@drawable/adapter_line" />
+        android:layout_marginTop="5dp"
+        android:background="@drawable/update_btn"
+        android:text="Comment"
+        android:id="@+id/questionAdapter_answerBtn"/>
 
 </RelativeLayout>

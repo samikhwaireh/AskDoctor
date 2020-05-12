@@ -1,18 +1,27 @@
 package com.example.askdoctors.Activities.Model;
 
 public class Questions {
-    String question,disease, image, profileImage,userName;
+    private String id, question,disease, image, profileImage,userName;
+
+    public Questions(String id, String question, String disease, String image, String profileImage, String userName) {
+        this.id = id;
+        this.question = question;
+        this.disease = disease;
+        this.image = image;
+        this.profileImage = profileImage;
+        this.userName = userName;
+    }
 
     public Questions(){
     }
 
 
-    public String getProfileImage() {
-        return profileImage;
+    public String getId() {
+        return id;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getQuestion() {
@@ -37,6 +46,14 @@ public class Questions {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public String getUserName() {
