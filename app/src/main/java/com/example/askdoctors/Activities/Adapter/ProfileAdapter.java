@@ -3,6 +3,7 @@ package com.example.askdoctors.Activities.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.askdoctors.Activities.Activity.ProfileActivity;
 import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.Activities.Model.User;
 import com.example.askdoctors.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,11 +47,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         final Doctors doctors = mDoctors.get(position);
         holder.username.setText(doctors.getFirstName()+doctors.getLastName());
 
-        if (doctors.getProfileImage().equals("default")){
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+        if (!TextUtils.isEmpty(doctors.getProfileImage())){
+            Picasso.get().load(doctors.getProfileImage()).into(holder.profile_image);
         } else {
-            Glide.with(mContext).load(doctors.getProfileImage()).into(holder.profile_image);
+            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         }
+
 
         if (isChat){
             if (doctors.getOnline().equals("online")){
@@ -69,7 +72,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext , ProfileActivity.class);
-                intent.putExtra("userid" , doctors.getId());
+                intent.putExtra("accType", "Doctors");
+                intent.putExtra("userId" , doctors.getId());
                 mContext.startActivity(intent);
             }
         });

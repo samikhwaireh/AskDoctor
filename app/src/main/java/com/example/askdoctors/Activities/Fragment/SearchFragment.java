@@ -61,6 +61,8 @@ public class SearchFragment extends Fragment {
 
         mDoctors = new ArrayList<>();
 
+        readDoctors();
+
         return viewGroup;
     }
 
@@ -78,7 +80,13 @@ public class SearchFragment extends Fragment {
                 mDoctors.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Doctors doctors = snapshot.getValue(Doctors.class);
+                    assert doctors != null;
+                    if (!doctors.getId().equals(firebaseUser.getUid())){
+                        mDoctors.add(doctors);
+                    }
                 }
+                profileAdapter = new ProfileAdapter(getContext(), mDoctors, false);
+                recyclerView.setAdapter(profileAdapter);
             }
 
             @Override
