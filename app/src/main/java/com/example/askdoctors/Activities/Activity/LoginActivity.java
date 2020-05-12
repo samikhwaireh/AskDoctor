@@ -71,6 +71,15 @@ public class LoginActivity extends AppCompatActivity {
         final Switch remember = findViewById(R.id.switcher);
         doctorSwitcher = findViewById(R.id.doctor_switcher);
 
+        TextView forgetPassword = findViewById(R.id.forget);
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Button login = findViewById(R.id.login_btn);
 
         firebaseAuth = FirebaseAuth.getInstance();
