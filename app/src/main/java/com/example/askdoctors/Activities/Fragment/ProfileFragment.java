@@ -127,6 +127,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         profileRv.setLayoutManager(new LinearLayoutManager(getContext()));
         profileRv.setNestedScrollingEnabled(false);
         profileRv.setAdapter(adapter);
+        profileRv.setNestedScrollingEnabled(false);
 
         return  view;
     }

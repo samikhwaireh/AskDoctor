@@ -1,6 +1,5 @@
 package com.example.askdoctors.Activities.Adapter;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,13 +38,7 @@ public class Admin_DoctorsRvAdapter extends RecyclerView.Adapter<Admin_DoctorsRv
     @Override
     public void onBindViewHolder(@NonNull doctorsHolder holder, int position) {
 
-        //Picasso.get().load(doctors.get(position).getProfileImage()).into(holder.userImageView);
-
-        if (!TextUtils.isEmpty(doctors.get(position).getProfileImage())){
-            Picasso.get().load(doctors.get(position).getProfileImage()).into(holder.userImageView);
-        } else {
-            holder.userImageView.setImageResource(R.mipmap.ic_launcher);
-        }
+        Picasso.get().load(doctors.get(position).getProfileImage()).into(holder.userImageView);
         holder.userNameTv.setText(doctors.get(position).getFirstName() + " " + doctors.get(position).getLastName());
         if (doctors.get(position).getStatus().equals("confirmed")){
             holder.confirmBtn.setText("Unconfirm");
