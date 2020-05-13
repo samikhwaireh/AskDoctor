@@ -1,6 +1,7 @@
 package com.example.askdoctors.Activities.Adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,9 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.answersH
     @Override
     public void onBindViewHolder(@NonNull answersHolder holder, int position) {
 
-        Picasso.get().load(answers.get(position).getProfileImage()).into(holder.imageView);
+        if (!TextUtils.isEmpty(answers.get(position).getProfileImage())) {
+            Picasso.get().load(answers.get(position).getProfileImage()).into(holder.imageView);
+        }
         holder.commentTv.setText(answers.get(position).getComment());
         holder.userNameTv.setText(answers.get(position).getUserName());
 
