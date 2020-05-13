@@ -64,8 +64,17 @@ public class Admin_AdminsFragment extends Fragment {
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Admins admins = dataSnapshot.getValue(Admins.class);
-                            Admins.add(admins);
+                            Admins admin = new Admins();
+                            String firstName = dataSnapshot.child("firstName").getValue(String.class);
+                            String lastName = dataSnapshot.child("lastName").getValue(String.class);
+                            String gender = dataSnapshot.child("gender").getValue(String.class);
+
+                            admin.setFirstName(firstName);
+                            admin.setLastName(lastName);
+                            admin.setGender(gender);
+
+
+                            Admins.add(admin);
                             adapter.notifyDataSetChanged();
                         }
 

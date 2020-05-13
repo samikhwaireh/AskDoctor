@@ -29,12 +29,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.askdoctors.Activities.Model.Doctors;
 import com.example.askdoctors.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -101,61 +103,6 @@ public class DoctorsProof extends AppCompatActivity {
 
     }
 
-    //kullanıcı hiçbir şey girmeden kaydetmeden geri tuşuna basarsa
-    //kullanıcıya uyarı gösterilir ve çıkmak istediğini soran bir uyarı olur
-    @Override
-    public void onBackPressed() {
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("EXIT");
-        alert.setMessage("If you exit your email will be deleted, are you sure ?");
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                Map<String, String> map = (HashMap<String, String>)getIntent().getSerializableExtra("map");
-                String email = map.get("email");
-                String password = map.get("password");
-
-                AuthCredential credential  = EmailAuthProvider.getCredential(email,password);
-                firebaseUser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Intent intent = new Intent(DoctorsProof.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toasty.error(DoctorsProof.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toasty.error(DoctorsProof.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
-                    }
-                });
-
-
-
-            }
-        });
-        alert.show();
-
-    }
 
 
     public void openGalleryForDiploma(View view){
@@ -225,85 +172,101 @@ public class DoctorsProof extends AppCompatActivity {
         if (result == false){
 
             progressBar.setVisibility(View.VISIBLE);
-            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            StorageReference storageReference = firebaseStorage.getReference();
 
-            UUID uuid = UUID.randomUUID();
+            final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+            Intent intent = getIntent();
+            final HashMap<String, String> userInfo;
+            userInfo = (HashMap<String, String>)intent.getSerializableExtra("map");
+            assert userInfo != null;
+            userInfo.put("diploma", uri.toString());
+            userInfo.put("university", university);
+            userInfo.put("graduate", graduate);
+            userInfo.put("profileImage", null);
 
-            final String path = "DoctorsProof/" + firebaseUser.getUid() + "/" + uuid + ".jpg";
+            String email = userInfo.get("email");
+            String password = userInfo.get("password");
 
-            storageReference.child(path).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    final String id = firebaseAuth.getUid();
+                    StorageReference storageReference = firebaseStorage.getReference();
+
+                    UUID uuid = UUID.randomUUID();
 
 
-                         StorageReference getDownloadUrl = firebaseStorage.getReference(path);
+                    final String path = "DoctorsProof/" + id + "/" + uuid + ".jpg";
 
-                         getDownloadUrl.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                             @Override
-                             public void onSuccess(Uri uri) {
-
-                                 //Map<String, Object> userInfo = new HashMap<>();
-                                 Intent intent = getIntent();
-                                 final HashMap<String, String> userInfo;
-                                 userInfo = (HashMap<String, String>)intent.getSerializableExtra("map");
-                                 assert userInfo != null;
-                                 userInfo.put("diploma", uri.toString());
-                                 userInfo.put("university", university);
-                                 userInfo.put("graduate", graduate);
-                                 userInfo.put("profileImage", null);
-
-                                 DatabaseReference databaseReference = firebaseDatabase.getReference("Doctors")
-                                         .child(firebaseUser.getUid());
-
-                                 databaseReference.setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                     @Override
-                                     public void onSuccess(Void aVoid) {
-
-                                        progressBar.setVisibility(View.GONE);
-                                        Intent intent = new Intent(DoctorsProof.this, SetProfileInfo_Activity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        intent.putExtra("accType", "Doctors");
-                                        intent.putExtra("firstName", userInfo.get("firstName"));
-                                        intent.putExtra("lastName", userInfo.get("lastName"));
-                                        startActivity(intent);
-
-                                     }
-                                 }).addOnFailureListener(new OnFailureListener() {
-                                     @Override
-                                     public void onFailure(@NonNull Exception e) {
-
-                                         progressBar.setVisibility(View.GONE);
-                                         Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
-
-                                         //kaydetme button'u tekrar etkinleştiriliyor
-                                         saveBtn.setEnabled(true);
-                                     }
-                                 });
-                             }
-                         }).addOnFailureListener(new OnFailureListener() {
-                             @Override
-                             public void onFailure(@NonNull Exception e) {
-
-                                 progressBar.setVisibility(View.GONE);
-                                 Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()),Toast.LENGTH_LONG).show();
+                    storageReference.child(path).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
 
-                                 saveBtn.setEnabled(true);
-                             }
-                         });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                            StorageReference getDownloadUrl = firebaseStorage.getReference(path);
 
-                    progressBar.setVisibility(View.GONE);
-                    Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
+                            getDownloadUrl.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
 
-                    saveBtn.setEnabled(true);
+                                    //Map<String, Object> userInfo = new HashMap<>();
+
+
+                                    DatabaseReference databaseReference = firebaseDatabase.getReference("Doctors")
+                                            .child(id);
+
+                                    databaseReference.setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                            progressBar.setVisibility(View.GONE);
+                                            Intent intent = new Intent(DoctorsProof.this, SetProfileInfo_Activity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            intent.putExtra("accType", "Doctors");
+                                            intent.putExtra("firstName", userInfo.get("firstName"));
+                                            intent.putExtra("lastName", userInfo.get("lastName"));
+                                            startActivity(intent);
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                            progressBar.setVisibility(View.GONE);
+                                            Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
+
+                                            //kaydetme button'u tekrar etkinleştiriliyor
+                                            saveBtn.setEnabled(true);
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    progressBar.setVisibility(View.GONE);
+                                    Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()),Toast.LENGTH_LONG).show();
+
+
+                                    saveBtn.setEnabled(true);
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            progressBar.setVisibility(View.GONE);
+                            Toasty.error(DoctorsProof.this, Objects.requireNonNull(e.getMessage()), Toast.LENGTH_LONG).show();
+
+                            saveBtn.setEnabled(true);
+                        }
+                    });
                 }
             });
+
+
+
         }else {
 
             saveBtn.setEnabled(true);
