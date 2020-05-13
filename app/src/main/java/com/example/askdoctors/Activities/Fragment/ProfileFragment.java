@@ -180,12 +180,14 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         DatabaseReference reference = firebaseDatabase.getReference("Questions");
         final Query query = reference.orderByChild("date").limitToLast(5);
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference(accType).child(firebaseAuth.getUid()).child("profileImage");
+        DatabaseReference databaseReference = firebaseDatabase.getReference(accType).child(firebaseAuth.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                final String profileImage = dataSnapshot.getValue(String.class);
+                final String profileImage = dataSnapshot.child("profileImage").getValue(String.class);
+                final String firstName = dataSnapshot.child("firstName").getValue(String.class);
+                final String lastName = dataSnapshot.child("lastName").getValue(String.class);
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -201,14 +203,13 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
                                     String Disease = ds.child("disease").getValue(String.class);
                                     String Image = ds.child("image").getValue(String.class);
                                     String Question = ds.child("question").getValue(String.class);
-                                    String UserName = ds.child("userName").getValue(String.class);
 
 
                                     key = ds.getKey();
                                     question.setDisease(Disease);
                                     question.setImage(Image);
                                     question.setProfileImage(profileImage);
-                                    question.setUserName(UserName);
+                                    question.setUserName(firstName + " " + lastName);
                                     question.setKey(key);
                                     question.setQuestion(Question);
                                     questions.add(question);
@@ -286,6 +287,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
                                             Toasty.success(getContext(), "Question deleted successfully"
                                             , Toasty.LENGTH_LONG).show();
+
                                             adapter.notifyDataSetChanged();
 
                                         }
