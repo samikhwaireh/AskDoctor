@@ -317,6 +317,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 editText.setText(dayOfMonth + "/" + (mMonth+1) + "/" + mYear); // print picked date to EditText
             }
         }, year, month, day);
+        dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
         dpd.show();
     }
 

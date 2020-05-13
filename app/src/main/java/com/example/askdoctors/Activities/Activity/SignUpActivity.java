@@ -136,6 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
                 screen.setText(dayOfMonth + "/" + (mMonth+1) + "/" + mYear); // print picked date to EditText
             }
         }, year, month, day);
+        dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
         dpd.show();
     }
 

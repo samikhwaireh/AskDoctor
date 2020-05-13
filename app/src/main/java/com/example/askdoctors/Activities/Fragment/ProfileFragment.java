@@ -3,6 +3,7 @@ package com.example.askdoctors.Activities.Fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -90,6 +92,11 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         logouBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("login", 0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("isChecked", "0");
+                editor.apply();
+
                 firebaseAuth.signOut();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

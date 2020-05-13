@@ -328,8 +328,7 @@ public class DoctorsProof extends AppCompatActivity {
                 graduateEt.setText(dayOfMonth + "/" + (mmonth+1) + "/" + myear);
             }
         }, year, month, day);
-
-
+        dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
         dpd.show();
     }
 

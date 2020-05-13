@@ -70,7 +70,10 @@ public class ProfileActivity extends AppCompatActivity implements QuestionsAdapt
         messages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("accType", accType);
+                startActivity(intent);
             }
         });
         profileImageView = findViewById(R.id.profile_ImageView);
