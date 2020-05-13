@@ -291,7 +291,9 @@ public class DoctorsProof extends AppCompatActivity {
                 graduateEt.setText(dayOfMonth + "/" + (mmonth+1) + "/" + myear);
             }
         }, year, month, day);
-        dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+        android.icu.util.Calendar cal = android.icu.util.Calendar.getInstance();
+        cal.add(android.icu.util.Calendar.YEAR, -1);
+        dpd.getDatePicker().setMaxDate(cal.getTimeInMillis());
         dpd.show();
     }
 
