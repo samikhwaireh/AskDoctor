@@ -110,7 +110,7 @@
                        android:id="@+id/forget"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Foreger Password?"
+                       android:text="Forget Password?"
                        android:textColor="@color/colorMain"
                        android:textSize="12sp"
                        android:layout_marginVertical="19dp"

@@ -76,7 +76,12 @@ public class Admin_DoctorsRvAdapter extends RecyclerView.Adapter<Admin_DoctorsRv
 
         @Override
         public void onClick(View v) {
-            confirmDoctors.onDoctorClicked(getLayoutPosition());
+            if (v == confirmBtn){
+                confirmDoctors.onConfirmClicked(getLayoutPosition());
+            } else if (v == itemView){
+                confirmDoctors.onDoctorClicked(getLayoutPosition());
+            }
+
         }
     }
 

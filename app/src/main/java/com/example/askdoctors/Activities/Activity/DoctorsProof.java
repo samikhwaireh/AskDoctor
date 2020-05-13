@@ -179,7 +179,7 @@ public class DoctorsProof extends AppCompatActivity {
             final HashMap<String, String> userInfo;
             userInfo = (HashMap<String, String>)intent.getSerializableExtra("map");
             assert userInfo != null;
-            userInfo.put("diploma", uri.toString());
+//            userInfo.put("diploma", uri.toString());
             userInfo.put("university", university);
             userInfo.put("graduate", graduate);
             userInfo.put("profileImage", null);
@@ -212,6 +212,7 @@ public class DoctorsProof extends AppCompatActivity {
                                     //Map<String, Object> userInfo = new HashMap<>();
 
 
+                                    userInfo.put("diploma", uri.toString());
                                     DatabaseReference databaseReference = firebaseDatabase.getReference("Doctors")
                                             .child(id);
 
