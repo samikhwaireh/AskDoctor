@@ -137,9 +137,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ques
         public void onClick(View view) {
             if (view == answerBtn){
                 questionClicked.answer(getLayoutPosition());
-            } else if (view == userImageView){
+            } /*else if (view == userImageView){
                 questionClicked.openProfile(getLayoutPosition());
-            }
+            }*/
         }
     }
 
