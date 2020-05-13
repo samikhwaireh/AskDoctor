@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
     QuestionsAdapter adapter;
     ArrayList<Questions> questions;
 
-    String firstName,lastName,birthday,gender,profileImage;
+    String firstName,lastName,birthday,gender,profileImage,key;
 
     @Nullable
     @Override
@@ -195,10 +195,13 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
                                     String Question = ds.child("question").getValue(String.class);
                                     String UserName = ds.child("userName").getValue(String.class);
 
+
+                                    key = ds.getKey();
                                     question.setDisease(Disease);
                                     question.setImage(Image);
                                     question.setProfileImage(profileImage);
                                     question.setUserName(UserName);
+                                    question.setKey(key);
                                     question.setQuestion(Question);
                                     questions.add(question);
 
@@ -237,6 +240,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
         intent.putExtra("ProfileImage", questions.get(position).getProfileImage());
         intent.putExtra("UserName", questions.get(position).getUserName());
         intent.putExtra("accype", accType);
+        intent.putExtra("key", questions.get(position).getKey());
         startActivity(intent);
     }
 

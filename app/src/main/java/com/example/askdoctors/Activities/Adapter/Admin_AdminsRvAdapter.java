@@ -1,5 +1,6 @@
 package com.example.askdoctors.Activities.Adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ public class Admin_AdminsRvAdapter extends RecyclerView.Adapter<Admin_AdminsRvAd
 
     @Override
     public void onBindViewHolder(@NonNull adminsHolder holder, int position) {
-        Picasso.get().load(admins.get(position).getProfileImage()).into(holder.userImageView);
+        if (!TextUtils.isEmpty(admins.get(position).getProfileImage()))
+            Picasso.get().load(admins.get(position).getProfileImage()).into(holder.userImageView);
         holder.userNameTv.setText(admins.get(position).getFirstName() + " " + admins.get(position).getLastName());
         holder.confirmBtn.setVisibility(View.GONE);
     }

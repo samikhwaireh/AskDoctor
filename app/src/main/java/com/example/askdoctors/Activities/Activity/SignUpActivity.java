@@ -177,6 +177,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
                         Toasty.error(SignUpActivity.this, e.getLocalizedMessage(), Toasty.LENGTH_LONG).show();
                     }
                 });
