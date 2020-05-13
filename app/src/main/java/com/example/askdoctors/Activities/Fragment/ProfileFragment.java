@@ -287,9 +287,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
                                             Toasty.success(getContext(), "Question deleted successfully"
                                             , Toasty.LENGTH_LONG).show();
 
-                                            questions.clear();
-                                            getAskedQuestions();
-                                         //   adapter.notifyDataSetChanged();
+                                            adapter.notifyDataSetChanged();
 
                                         }
                                     });

@@ -99,19 +99,22 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
                             final String UserName = ds.child("userName").getValue(String.class);
                             final String key = ds.getKey();
 
-                            DatabaseReference databaseReference = firebaseDatabase.getReference(accType)
-                                    .child(ds.child("id").getValue(String.class)).child("profileImage");
+                            final DatabaseReference databaseReference = firebaseDatabase.getReference("Users")
+                                    .child(ds.child("id").getValue(String.class));
 
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    final String profileImage = dataSnapshot.getValue(String.class);
+                                    final String profileImage = dataSnapshot.child("profileImage").getValue(String.class);
+                                    final String firstName = dataSnapshot.child("firstName").getValue(String.class);
+                                    final String lastName = dataSnapshot.child("lastName").getValue(String.class);
+
                                     if (!TextUtils.isEmpty(UserName)){
                                         question.setDisease(Disease);
                                         question.setImage(Image);
                                         question.setProfileImage(profileImage);
-                                        question.setUserName(UserName);
+                                        question.setUserName(firstName + " " + lastName);
                                         question.setQuestion(Question);
                                         question.setKey(key);
                                         questions.add(question);
