@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
     tools:context=".Activities.Activity.AskQuestionActivity">
 
    <ScrollView
@@ -20,7 +23,7 @@
                   android:id="@+id/Ask_userImageView"
                   android:layout_width="75dp"
                   android:layout_height="75dp"
-                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
                   android:layout_marginTop="10dp"
                   android:src="@drawable/ic_person_black_24dp" />
 
@@ -58,53 +61,51 @@
               <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_alignBottom="@id/Ask_userImageView"
-                  android:layout_marginBottom="-27dp"
-                  android:text="Disease :"
-                  android:layout_marginLeft="10dp"
+                  android:layout_below="@+id/Ask_userImageView"
+                  android:text="Case :"
+                  android:layout_marginTop="30dp"
+                  android:layout_marginStart="10dp"
                   android:id="@+id/type"/>
 
               <EditText
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_alignBottom="@+id/type"
-                  android:layout_marginLeft="10dp"
-                  android:layout_toRightOf="@id/type"
+                  android:layout_height="40dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_toEndOf="@+id/type"
                   android:background="@drawable/input_text_box"
-                  android:layout_marginRight="15dp"
+                  android:layout_below="@+id/Ask_userImageView"
+                  android:layout_marginTop="10dp"
                   android:id="@+id/Ask_diseaseEt"
                   android:inputType="text"/>
 
               <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_below="@+id/type"
+                  android:layout_below="@+id/Ask_diseaseEt"
                   android:layout_alignStart="@+id/type"
                   android:layout_marginStart="0dp"
-                  android:layout_marginTop="39dp"
-                  android:layout_marginEnd="49dp"
-                  android:text="Question :"
+                  android:layout_marginTop="20dp"
+                  android:text="Your Question :"
                   android:id="@+id/question"/>
 
               <EditText
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
+                  android:layout_height="50dp"
                   android:layout_below="@+id/question"
-                  android:layout_marginTop="6dp"
                   android:background="@drawable/input_text_box"
                   android:layout_marginRight="10dp"
                   android:layout_marginLeft="10dp"
                   android:id="@+id/Ask_questionEt"
-                  android:hint="Type a question..."
+                  android:hint="Describes your case..."
                   android:inputType="textMultiLine"/>
 
               <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_below="@+id/Ask_questionEt"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginLeft="10dp"
-                  android:text="Image if has :"
+                  android:layout_marginTop="30dp"
+                  android:layout_marginStart="10dp"
+                  android:text="add a picture to describes the case :"
                   android:id="@+id/im"/>
               <ImageView
                   android:layout_width="250dp"
@@ -113,19 +114,15 @@
                   android:layout_marginTop="10dp"
                   android:layout_centerHorizontal="true"
                   android:id="@+id/Ask_ImageView"
-                  android:src="@drawable/common_google_signin_btn_icon_dark_normal_background"/>
+                  android:src="@drawable/update_btn"/>
               <Button
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_below="@id/Ask_ImageView"
                   android:layout_marginTop="10dp"
-                  android:background="@drawable/btn_icon"
+                  android:background="@drawable/update_btn"
                   android:layout_centerHorizontal="true"
                   android:text="Select Image"
-                  android:drawableLeft="@drawable/ic_image_black_24dp"
-                  android:drawablePadding="5dp"
-                  android:paddingRight="20dp"
-                  android:paddingBottom="15dp"
                   android:onClick="openGalleryForImage"/>
 
               <ProgressBar
