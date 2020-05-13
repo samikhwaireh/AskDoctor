@@ -262,7 +262,7 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
             public void onClick(DialogInterface dialog, int which) {
 
                 DatabaseReference reference = firebaseDatabase.getReference("Questions");
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -286,7 +286,10 @@ public class ProfileFragment extends Fragment implements QuestionsAdapter.onQues
 
                                             Toasty.success(getContext(), "Question deleted successfully"
                                             , Toasty.LENGTH_LONG).show();
-                                            adapter.notifyDataSetChanged();
+
+                                            questions.clear();
+                                            getAskedQuestions();
+                                         //   adapter.notifyDataSetChanged();
 
                                         }
                                     });
