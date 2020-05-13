@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
                             final String UserName = ds.child("userName").getValue(String.class);
                             final String key = ds.getKey();
 
-                            DatabaseReference databaseReference = firebaseDatabase.getReference(accType)
+                            DatabaseReference databaseReference = firebaseDatabase.getReference("Users")
                                     .child(ds.child("id").getValue(String.class)).child("profileImage");
 
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,9 +126,6 @@ public class HomeFragment extends Fragment implements QuestionsAdapter.onQuestio
                                     Toasty.error(getContext(), databaseError.getMessage(), Toasty.LENGTH_LONG).show();
                                 }
                             });
-
-
-
                     }
 
                 }

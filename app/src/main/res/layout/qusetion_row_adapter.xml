@@ -17,6 +17,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/questionAdapter_userImage"
+        android:layout_marginStart="9dp"
+        android:layout_marginBottom="15dp"
+        android:layout_toEndOf="@+id/questionAdapter_userImage"
+        android:text="UserName"
+        android:textStyle="bold"
+        android:id="@+id/questionAdapter_userNameTv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_below="@id/questionAdapter_userImage"
         android:text="Disease :"
@@ -47,16 +57,7 @@
         android:layout_below="@id/disease"
         android:id="@+id/questionAdapter_QuestionTv"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/questionAdapter_userImage"
-        android:layout_marginStart="9dp"
-        android:layout_marginBottom="15dp"
-        android:layout_toEndOf="@+id/questionAdapter_userImage"
-        android:text="UserName"
-        android:textStyle="bold"
-        android:id="@+id/questionAdapter_userNameTv"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
